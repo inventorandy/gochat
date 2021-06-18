@@ -1,0 +1,60 @@
+version: "3.7"
+
+networks:
+  gochat-net: {}
+
+services:
+  postgres:
+    container_name: gochat_postgres
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./initdb.sql:/docker-entrypoint-initdb.d/init.sql
+    env_file: .env
+    networks:
+      - gochat-net
+    ports:
+      - 5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  adminer:
+    container_name: gochat_adminder
+    image: adminer
+    networks:
+      - gochat-net
+    ports:
+      - 8080:8080
+  account:
+    container_name: gochat_service_accounts
+    image: gochat-service-accounts
+    restart: always
+    build:
+      context: .
+    env_file: .env
+    networks:
+      - gochat-net
+    ports:
+      - ${ACCOUNT_SERVICE_PORT}
+    depends_on:
+      - postgres
+    command: ./account
+  conversation:
+    container_name: gochat_service_conversations
+    image: gochat-service-conversations
+    restart: always
+    build:
+      context: .
+    env_file: .env
+    networks:
+      - gochat-net
+    ports:
+      - ${CONVERSATION_SERVICE_PORT}
+    depends_on:
+      - postgres
+    command: ./conversation
+
+volumes:
+  pgdata:

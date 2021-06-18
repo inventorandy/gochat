@@ -1,0 +1,361 @@
+swagger: "2.0"
+consumes:
+  - application/json
+produces:
+  - application/json
+info:
+  title: GoChat API
+  version: 1.0.0
+schemes:
+  - http
+basePath: /api/v1
+securityDefinitions:
+  jwt:
+    type: apiKey
+    in: header
+    name: Authorization
+security:
+  - jwt: []
+tags:
+  - name: stable
+    description: Ready for integration
+paths:
+  /account:
+    post:
+      description: Endpoint to create a new account.
+      tags:
+        - stable
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/user"
+      responses:
+        201:
+          description: Account was created.
+          schema:
+            $ref: "#/definitions/user"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
+    put:
+      description: Endpoint for a user to update their profile.
+      tags:
+        - stable
+      security:
+        - jwt: []
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/user"
+      responses:
+        200:
+          description: Account was updated.
+          schema:
+            $ref: "#/definitions/user"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
+    get:
+      description: Endpoint to get user account information.
+      tags:
+        - stable
+      security:
+        - jwt: []
+      responses:
+        200:
+          description: Requester's user account returned.
+          schema:
+            $ref: "#/definitions/user"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
+  /auth/login:
+    post:
+      description: Logs a user in and returns a JWT for secured API calls.
+      tags:
+        - stable
+      parameters:
+        - name: login
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/login_request"
+      responses:
+        200:
+          description: User was successfully logged in.
+          schema:
+            $ref: "#/definitions/login_response"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
+  /conversation:
+    post:
+      description: Creates a new conversation.
+      tags:
+        - stable
+      security:
+        - jwt: []
+      parameters:
+        - name: conversation
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/conversation"
+      responses:
+        201:
+          description: Conversation was created.
+          schema:
+            $ref: "#/definitions/conversation"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/responses/BadRequest"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
+    put:
+      description: Updates an existing conversation.
+      tags:
+        - stable
+      security:
+        - jwt: []
+      parameters:
+        - name: conversation
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/conversation"
+      responses:
+        200:
+          description: Conversation was updated.
+          schema:
+            $ref: "#/definitions/conversation"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/responses/BadRequest"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
+  /conversation/{id}:
+    get:
+      description: Fetches an existing conversation.
+      tags:
+        - stable
+      security:
+        - jwt: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Conversation was retrieved.
+          schema:
+            $ref: "#/definitions/conversation"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/responses/BadRequest"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/responses/NotFound"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
+  /message:
+    post:
+      description: Creates a new message.
+      tags:
+        - stable
+      security:
+        - jwt: []
+      parameters:
+        - name: message
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/message"
+      responses:
+        201:
+          description: Message was created.
+          schema:
+            $ref: "#/definitions/message"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/responses/BadRequest"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
+    put:
+      description: Updates an existing message.
+      tags:
+        - stable
+      security:
+        - jwt: []
+      parameters:
+        - name: message
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/message"
+      responses:
+        200:
+          description: Message was updated.
+          schema:
+            $ref: "#/definitions/message"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/responses/BadRequest"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
+responses:
+  BadRequest:
+    description: Bad Request
+    schema:
+      $ref: "#/definitions/error"
+  NotFound:
+    description: Not Found
+    schema:
+        $ref: "#/definitions/error"
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/error"
+  Unknown:
+    description: Unknown
+    schema:
+      $ref: "#/definitions/error"
+definitions:
+  error:
+    type: object
+    properties:
+      message:
+        type: string
+  user:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+      salt:
+        type: string
+      first_name:
+        type: string
+        example: John
+      last_name:
+        type: string
+        example: Smith
+  login_request:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+  login_response:
+    type: object
+    properties:
+      auth_token:
+        type: string
+      user:
+        type: object
+        $ref: "#/definitions/user"
+  message:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      created_at:
+        type: string
+        format: date-time
+      conversation_id:
+        type: string
+        format: uuid
+      author_id:
+        type: string
+        format: uuid
+      message:
+        type: string
+  conversation:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      last_message_on:
+        type: string
+        format: date-time
+      label:
+        type: string
+        example: "#all-social"
+      is_public:
+        type: boolean
+      participants:
+        type: array
+        items:
+          $ref: "#/definitions/user"
+      messages:
+        type: array
+        items:
+          $ref: "#/definitions/message"
+  principal:
+    type: string
+      

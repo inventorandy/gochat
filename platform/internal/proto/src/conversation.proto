@@ -1,0 +1,87 @@
+syntax = "proto3";
+option go_package = ".;pb";
+package pb;
+
+// Import Standard Definitions
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+// Message Protobuf Type
+message Message {
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  string conversation_id = 3;
+  string author_id = 4;
+  string message = 5;
+}
+
+// ConversationHasParticipant Protobuf Type
+message ConversationHasParticipant {
+  string conversation_id = 1;
+  string participant_id = 2;
+}
+
+// Conversation Protobuf Type
+message Conversation {
+  string id = 1;
+  string label = 2;
+  bool is_public = 3;
+  google.protobuf.Timestamp last_message_on = 4;
+  repeated ConversationHasParticipant participants = 5;
+  repeated Message messages = 6;
+}
+
+// ConversationList Protobuf Type
+message ConversationList {
+  repeated Conversation conversations = 1;
+}
+
+// ConversationUpdateType Enum
+enum ConversationUpdateType {
+  CONVERSATION_NO_UPDATE_TYPE_SET = 0;
+  CONVERSATION_CREATED = 1;
+  CONVERSATION_UPDATED = 2;
+  CONVERSATION_DELETED = 3;
+}
+
+// ConversationUpdate Protobuf Type
+message ConversationUpdate {
+  ConversationUpdateType update_type = 1;
+  Conversation conversation = 2;
+}
+
+// MessageUpdateType Enum
+enum MessageUpdateType {
+  MESSAGE_NO_UPDATE_TYPE_SET = 0;
+  MESSAGE_CREATED = 1;
+}
+
+// MessageUpdate Protobuf Type
+message MessageUpdate {
+  MessageUpdateType update_type = 1;
+  Message message = 2;
+}
+
+// ChatStreamUpdate Protobuf Type
+message ChatStreamUpdate {
+  oneof update_type {
+    ConversationUpdate conversation_info = 1;
+    MessageUpdate message_info = 2;
+  }
+}
+
+// Conversation Service Definition
+service ConversationService {
+  // Conversation Methods
+  rpc CreateConversation(Conversation) returns(Conversation);
+  rpc AddUserToConversation(ConversationHasParticipant) returns(Conversation);
+  rpc GetPublicConversations(google.protobuf.Empty) returns(ConversationList);
+  rpc GetPrivateConversationsForUser(google.protobuf.StringValue) returns(ConversationList);
+
+  // Message Methods
+  rpc CreateMessage(Message) returns(Message);
+
+  // Streaming Methods
+  rpc ChatStream(google.protobuf.Empty) returns(stream ChatStreamUpdate);
+}

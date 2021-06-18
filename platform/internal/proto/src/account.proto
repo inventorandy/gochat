@@ -1,0 +1,38 @@
+syntax = "proto3";
+option go_package = ".;pb";
+package pb;
+
+// Import Standard Definitions
+// import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+// User Protobuf Type
+message User {
+  string id = 1;
+  string email = 2;
+  string password = 3;
+  string salt = 4;
+  string first_name = 5;
+  string last_name = 6;
+}
+
+// LoginRequest Protobuf Type
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+// LoginResponse Protobuf Type
+message LoginResponse {
+  User user = 1;
+  string jwt = 2;
+}
+
+// Account Service Definition
+service AccountService {
+  rpc CreateUser(User) returns(User);
+  rpc GetUserByID(google.protobuf.StringValue) returns(User);
+  rpc GetUserByEmail(google.protobuf.StringValue) returns(User);
+  rpc Login(LoginRequest) returns(LoginResponse);
+  rpc AuthenticateJWT(google.protobuf.StringValue) returns(User);
+}
