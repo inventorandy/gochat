@@ -643,11 +643,6 @@ func init() {
       "in": "header"
     }
   },
-  "security": [
-    {
-      "jwt": []
-    }
-  ],
   "tags": [
     {
       "description": "Ready for integration",
@@ -1368,11 +1363,6 @@ func init() {
       "in": "header"
     }
   },
-  "security": [
-    {
-      "jwt": []
-    }
-  ],
   "tags": [
     {
       "description": "Ready for integration",

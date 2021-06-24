@@ -54,10 +54,10 @@ func NewGochatAPI(spec *loads.Document) *GochatAPI {
 		StableGetConversationIDHandler: stable.GetConversationIDHandlerFunc(func(params stable.GetConversationIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation stable.GetConversationID has not yet been implemented")
 		}),
-		StablePostAccountHandler: stable.PostAccountHandlerFunc(func(params stable.PostAccountParams, principal *models.Principal) middleware.Responder {
+		StablePostAccountHandler: stable.PostAccountHandlerFunc(func(params stable.PostAccountParams) middleware.Responder {
 			return middleware.NotImplemented("operation stable.PostAccount has not yet been implemented")
 		}),
-		StablePostAuthLoginHandler: stable.PostAuthLoginHandlerFunc(func(params stable.PostAuthLoginParams, principal *models.Principal) middleware.Responder {
+		StablePostAuthLoginHandler: stable.PostAuthLoginHandlerFunc(func(params stable.PostAuthLoginParams) middleware.Responder {
 			return middleware.NotImplemented("operation stable.PostAuthLogin has not yet been implemented")
 		}),
 		StablePostConversationHandler: stable.PostConversationHandlerFunc(func(params stable.PostConversationParams, principal *models.Principal) middleware.Responder {

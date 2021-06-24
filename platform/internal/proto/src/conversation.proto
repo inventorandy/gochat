@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = ".;pb";
+option go_package = "./;pb";
 package pb;
 
 // Import Standard Definitions
@@ -75,6 +75,8 @@ message ChatStreamUpdate {
 service ConversationService {
   // Conversation Methods
   rpc CreateConversation(Conversation) returns(Conversation);
+  rpc UpdateConversation(Conversation) returns(Conversation);
+  rpc GetConversationByID(google.protobuf.StringValue) returns(Conversation);
   rpc AddUserToConversation(ConversationHasParticipant) returns(Conversation);
   rpc GetPublicConversations(google.protobuf.Empty) returns(ConversationList);
   rpc GetPrivateConversationsForUser(google.protobuf.StringValue) returns(ConversationList);

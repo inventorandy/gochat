@@ -70,12 +70,12 @@ func configureAPI(api *operations.GochatAPI) http.Handler {
 	// api.APIAuthorizer = security.Authorized()
 
 	// [POST /auth/login]
-	api.StablePostAuthLoginHandler = stable.PostAuthLoginHandlerFunc(func(params stable.PostAuthLoginParams, principal *models.Principal) middleware.Responder {
+	api.StablePostAuthLoginHandler = stable.PostAuthLoginHandlerFunc(func(params stable.PostAuthLoginParams) middleware.Responder {
 		return handlers.AuthLoginPost(params)
 	})
 
 	// [POST /account]
-	api.StablePostAccountHandler = stable.PostAccountHandlerFunc(func(params stable.PostAccountParams, principal *models.Principal) middleware.Responder {
+	api.StablePostAccountHandler = stable.PostAccountHandlerFunc(func(params stable.PostAccountParams) middleware.Responder {
 		return handlers.AccountPost(params)
 	})
 
@@ -87,6 +87,26 @@ func configureAPI(api *operations.GochatAPI) http.Handler {
 	// [GET /account]
 	api.StableGetAccountHandler = stable.GetAccountHandlerFunc(func(params stable.GetAccountParams, principal *models.Principal) middleware.Responder {
 		return handlers.AccountGet(user, params)
+	})
+
+	// [POST /conversation]
+	api.StablePostConversationHandler = stable.PostConversationHandlerFunc(func(params stable.PostConversationParams, principal *models.Principal) middleware.Responder {
+		return handlers.ConversationPost(params)
+	})
+
+	// [PUT /conversation]
+	api.StablePutConversationHandler = stable.PutConversationHandlerFunc(func(params stable.PutConversationParams, principal *models.Principal) middleware.Responder {
+		return handlers.ConversationPut(params)
+	})
+
+	// [GET /conversation]
+	api.StableGetConversationHandler = stable.GetConversationHandlerFunc(func(params stable.GetConversationParams, principal *models.Principal) middleware.Responder {
+		return handlers.ConversationGet(user, params)
+	})
+
+	// [GET /conversation/{id}]
+	api.StableGetConversationIDHandler = stable.GetConversationIDHandlerFunc(func(params stable.GetConversationIDParams, principal *models.Principal) middleware.Responder {
+		return handlers.ConversationIDGet(user, params)
 	})
 
 	api.PreServerShutdown = func() {}

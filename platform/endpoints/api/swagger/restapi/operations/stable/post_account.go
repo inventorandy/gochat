@@ -9,21 +9,19 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
-
-	"gochat/platform/endpoints/api/swagger/models"
 )
 
 // PostAccountHandlerFunc turns a function with the right signature into a post account handler
-type PostAccountHandlerFunc func(PostAccountParams, *models.Principal) middleware.Responder
+type PostAccountHandlerFunc func(PostAccountParams) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn PostAccountHandlerFunc) Handle(params PostAccountParams, principal *models.Principal) middleware.Responder {
-	return fn(params, principal)
+func (fn PostAccountHandlerFunc) Handle(params PostAccountParams) middleware.Responder {
+	return fn(params)
 }
 
 // PostAccountHandler interface for that can handle valid post account params
 type PostAccountHandler interface {
-	Handle(PostAccountParams, *models.Principal) middleware.Responder
+	Handle(PostAccountParams) middleware.Responder
 }
 
 // NewPostAccount creates a new http.Handler for the post account operation
@@ -44,28 +42,15 @@ type PostAccount struct {
 func (o *PostAccount) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewPostAccountParams()
-	uprinc, aCtx, err := o.Context.Authorize(r, route)
-	if err != nil {
-		o.Context.Respond(rw, r, route.Produces, route, err)
-		return
-	}
-	if aCtx != nil {
-		r = aCtx
-	}
-	var principal *models.Principal
-	if uprinc != nil {
-		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
-	}
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
-	res := o.Handler.Handle(Params, principal) // actually handle the request
+	res := o.Handler.Handle(Params) // actually handle the request
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

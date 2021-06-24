@@ -13,6 +13,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // ConversationServiceClient is the client API for ConversationService service.
@@ -21,6 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 type ConversationServiceClient interface {
 	// Conversation Methods
 	CreateConversation(ctx context.Context, in *Conversation, opts ...grpc.CallOption) (*Conversation, error)
+	UpdateConversation(ctx context.Context, in *Conversation, opts ...grpc.CallOption) (*Conversation, error)
+	GetConversationByID(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*Conversation, error)
 	AddUserToConversation(ctx context.Context, in *ConversationHasParticipant, opts ...grpc.CallOption) (*Conversation, error)
 	GetPublicConversations(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ConversationList, error)
 	GetPrivateConversationsForUser(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*ConversationList, error)
@@ -41,6 +44,24 @@ func NewConversationServiceClient(cc grpc.ClientConnInterface) ConversationServi
 func (c *conversationServiceClient) CreateConversation(ctx context.Context, in *Conversation, opts ...grpc.CallOption) (*Conversation, error) {
 	out := new(Conversation)
 	err := c.cc.Invoke(ctx, "/pb.ConversationService/CreateConversation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *conversationServiceClient) UpdateConversation(ctx context.Context, in *Conversation, opts ...grpc.CallOption) (*Conversation, error) {
+	out := new(Conversation)
+	err := c.cc.Invoke(ctx, "/pb.ConversationService/UpdateConversation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *conversationServiceClient) GetConversationByID(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*Conversation, error) {
+	out := new(Conversation)
+	err := c.cc.Invoke(ctx, "/pb.ConversationService/GetConversationByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +105,7 @@ func (c *conversationServiceClient) CreateMessage(ctx context.Context, in *Messa
 }
 
 func (c *conversationServiceClient) ChatStream(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (ConversationService_ChatStreamClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_ConversationService_serviceDesc.Streams[0], "/pb.ConversationService/ChatStream", opts...)
+	stream, err := c.cc.NewStream(ctx, &ConversationService_ServiceDesc.Streams[0], "/pb.ConversationService/ChatStream", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -121,6 +142,8 @@ func (x *conversationServiceChatStreamClient) Recv() (*ChatStreamUpdate, error) 
 type ConversationServiceServer interface {
 	// Conversation Methods
 	CreateConversation(context.Context, *Conversation) (*Conversation, error)
+	UpdateConversation(context.Context, *Conversation) (*Conversation, error)
+	GetConversationByID(context.Context, *wrapperspb.StringValue) (*Conversation, error)
 	AddUserToConversation(context.Context, *ConversationHasParticipant) (*Conversation, error)
 	GetPublicConversations(context.Context, *emptypb.Empty) (*ConversationList, error)
 	GetPrivateConversationsForUser(context.Context, *wrapperspb.StringValue) (*ConversationList, error)
@@ -137,6 +160,12 @@ type UnimplementedConversationServiceServer struct {
 
 func (UnimplementedConversationServiceServer) CreateConversation(context.Context, *Conversation) (*Conversation, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateConversation not implemented")
+}
+func (UnimplementedConversationServiceServer) UpdateConversation(context.Context, *Conversation) (*Conversation, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateConversation not implemented")
+}
+func (UnimplementedConversationServiceServer) GetConversationByID(context.Context, *wrapperspb.StringValue) (*Conversation, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetConversationByID not implemented")
 }
 func (UnimplementedConversationServiceServer) AddUserToConversation(context.Context, *ConversationHasParticipant) (*Conversation, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddUserToConversation not implemented")
@@ -163,7 +192,7 @@ type UnsafeConversationServiceServer interface {
 }
 
 func RegisterConversationServiceServer(s grpc.ServiceRegistrar, srv ConversationServiceServer) {
-	s.RegisterService(&_ConversationService_serviceDesc, srv)
+	s.RegisterService(&ConversationService_ServiceDesc, srv)
 }
 
 func _ConversationService_CreateConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -180,6 +209,42 @@ func _ConversationService_CreateConversation_Handler(srv interface{}, ctx contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ConversationServiceServer).CreateConversation(ctx, req.(*Conversation))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ConversationService_UpdateConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Conversation)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConversationServiceServer).UpdateConversation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.ConversationService/UpdateConversation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConversationServiceServer).UpdateConversation(ctx, req.(*Conversation))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ConversationService_GetConversationByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(wrapperspb.StringValue)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConversationServiceServer).GetConversationByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.ConversationService/GetConversationByID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConversationServiceServer).GetConversationByID(ctx, req.(*wrapperspb.StringValue))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -277,13 +342,24 @@ func (x *conversationServiceChatStreamServer) Send(m *ChatStreamUpdate) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-var _ConversationService_serviceDesc = grpc.ServiceDesc{
+// ConversationService_ServiceDesc is the grpc.ServiceDesc for ConversationService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ConversationService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.ConversationService",
 	HandlerType: (*ConversationServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateConversation",
 			Handler:    _ConversationService_CreateConversation_Handler,
+		},
+		{
+			MethodName: "UpdateConversation",
+			Handler:    _ConversationService_UpdateConversation_Handler,
+		},
+		{
+			MethodName: "GetConversationByID",
+			Handler:    _ConversationService_GetConversationByID_Handler,
 		},
 		{
 			MethodName: "AddUserToConversation",

@@ -10,6 +10,7 @@ import (
 type Repository interface {
 	// Conversation Methods
 	CreateConversation(conversation *types.Conversation) (*types.Conversation, error)
+	UpdateConversation(conversation *types.Conversation) (*types.Conversation, error)
 	GetConversationByID(conversationID uuid.UUID) (*types.Conversation, error)
 	GetPublicConversations() ([]*types.Conversation, error)
 	GetPrivateConversationsForUser(userID uuid.UUID) ([]*types.Conversation, error)
