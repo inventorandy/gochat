@@ -57,6 +57,48 @@ func (o *PostAccountCreated) WriteResponse(rw http.ResponseWriter, producer runt
 	}
 }
 
+// PostAccountBadRequestCode is the HTTP code returned for type PostAccountBadRequest
+const PostAccountBadRequestCode int = 400
+
+/*PostAccountBadRequest Bad Request
+
+swagger:response postAccountBadRequest
+*/
+type PostAccountBadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload interface{} `json:"body,omitempty"`
+}
+
+// NewPostAccountBadRequest creates PostAccountBadRequest with default headers values
+func NewPostAccountBadRequest() *PostAccountBadRequest {
+
+	return &PostAccountBadRequest{}
+}
+
+// WithPayload adds the payload to the post account bad request response
+func (o *PostAccountBadRequest) WithPayload(payload interface{}) *PostAccountBadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the post account bad request response
+func (o *PostAccountBadRequest) SetPayload(payload interface{}) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *PostAccountBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(400)
+	payload := o.Payload
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
+	}
+}
+
 // PostAccountInternalServerErrorCode is the HTTP code returned for type PostAccountInternalServerError
 const PostAccountInternalServerErrorCode int = 500
 

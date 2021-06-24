@@ -11,6 +11,7 @@ RUN go mod tidy
 RUN go mod download
 
 # Build the Application
+RUN CGO_ENABLED=0 GOOS=linux go build -o api ./platform/endpoints/api/
 RUN CGO_ENABLED=0 GOOS=linux go build -o account ./platform/services/account/
 RUN CGO_ENABLED=0 GOOS=linux go build -o conversation ./platform/services/conversation/
 
@@ -22,5 +23,6 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Copy the Executable from the Build State
+COPY --from=builder /gochat/api .
 COPY --from=builder /gochat/account .
 COPY --from=builder /gochat/conversation .

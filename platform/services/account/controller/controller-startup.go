@@ -15,7 +15,7 @@ type Claims struct {
 
 // AccountController struct
 type AccountController struct {
-	r *repository.AccountRepository
+	r repository.Repository
 }
 
 // NewAccountController creates a new instance of the account controller

@@ -48,6 +48,9 @@ func NewGochatAPI(spec *loads.Document) *GochatAPI {
 		StableGetAccountHandler: stable.GetAccountHandlerFunc(func(params stable.GetAccountParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation stable.GetAccount has not yet been implemented")
 		}),
+		StableGetConversationHandler: stable.GetConversationHandlerFunc(func(params stable.GetConversationParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation stable.GetConversation has not yet been implemented")
+		}),
 		StableGetConversationIDHandler: stable.GetConversationIDHandlerFunc(func(params stable.GetConversationIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation stable.GetConversationID has not yet been implemented")
 		}),
@@ -124,6 +127,8 @@ type GochatAPI struct {
 
 	// StableGetAccountHandler sets the operation handler for the get account operation
 	StableGetAccountHandler stable.GetAccountHandler
+	// StableGetConversationHandler sets the operation handler for the get conversation operation
+	StableGetConversationHandler stable.GetConversationHandler
 	// StableGetConversationIDHandler sets the operation handler for the get conversation ID operation
 	StableGetConversationIDHandler stable.GetConversationIDHandler
 	// StablePostAccountHandler sets the operation handler for the post account operation
@@ -223,6 +228,9 @@ func (o *GochatAPI) Validate() error {
 
 	if o.StableGetAccountHandler == nil {
 		unregistered = append(unregistered, "stable.GetAccountHandler")
+	}
+	if o.StableGetConversationHandler == nil {
+		unregistered = append(unregistered, "stable.GetConversationHandler")
 	}
 	if o.StableGetConversationIDHandler == nil {
 		unregistered = append(unregistered, "stable.GetConversationIDHandler")
@@ -351,6 +359,10 @@ func (o *GochatAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/account"] = stable.NewGetAccount(o.context, o.StableGetAccountHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/conversation"] = stable.NewGetConversation(o.context, o.StableGetConversationHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

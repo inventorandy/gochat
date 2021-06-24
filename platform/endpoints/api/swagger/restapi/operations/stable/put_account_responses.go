@@ -57,6 +57,48 @@ func (o *PutAccountOK) WriteResponse(rw http.ResponseWriter, producer runtime.Pr
 	}
 }
 
+// PutAccountBadRequestCode is the HTTP code returned for type PutAccountBadRequest
+const PutAccountBadRequestCode int = 400
+
+/*PutAccountBadRequest Bad Request
+
+swagger:response putAccountBadRequest
+*/
+type PutAccountBadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload interface{} `json:"body,omitempty"`
+}
+
+// NewPutAccountBadRequest creates PutAccountBadRequest with default headers values
+func NewPutAccountBadRequest() *PutAccountBadRequest {
+
+	return &PutAccountBadRequest{}
+}
+
+// WithPayload adds the payload to the put account bad request response
+func (o *PutAccountBadRequest) WithPayload(payload interface{}) *PutAccountBadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the put account bad request response
+func (o *PutAccountBadRequest) SetPayload(payload interface{}) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *PutAccountBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(400)
+	payload := o.Payload
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
+	}
+}
+
 // PutAccountUnauthorizedCode is the HTTP code returned for type PutAccountUnauthorized
 const PutAccountUnauthorizedCode int = 401
 

@@ -93,6 +93,12 @@ func init() {
               "$ref": "#/definitions/user"
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/responses/BadRequest"
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "schema": {
@@ -127,6 +133,12 @@ func init() {
             "description": "Account was created.",
             "schema": {
               "$ref": "#/definitions/user"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/responses/BadRequest"
             }
           },
           "500": {
@@ -177,6 +189,56 @@ func init() {
       }
     },
     "/conversation": {
+      "get": {
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "description": "Fetches a list of conversations for a user.",
+        "tags": [
+          "stable"
+        ],
+        "parameters": [
+          {
+            "type": "boolean",
+            "name": "public",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conversations were returned.",
+            "schema": {
+              "$ref": "#/definitions/conversation_list"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/responses/BadRequest"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/responses/Unauthorized"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/responses/NotFound"
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "schema": {
+              "$ref": "#/responses/Unknown"
+            }
+          }
+        }
+      },
       "put": {
         "security": [
           {
@@ -455,6 +517,12 @@ func init() {
         }
       }
     },
+    "conversation_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/conversation"
+      }
+    },
     "error": {
       "type": "object",
       "properties": {
@@ -669,6 +737,15 @@ func init() {
               "$ref": "#/definitions/user"
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "description": "Bad Request",
+              "schema": {
+                "$ref": "#/definitions/error"
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "schema": {
@@ -709,6 +786,15 @@ func init() {
             "description": "Account was created.",
             "schema": {
               "$ref": "#/definitions/user"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "description": "Bad Request",
+              "schema": {
+                "$ref": "#/definitions/error"
+              }
             }
           },
           "500": {
@@ -768,6 +854,68 @@ func init() {
       }
     },
     "/conversation": {
+      "get": {
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "description": "Fetches a list of conversations for a user.",
+        "tags": [
+          "stable"
+        ],
+        "parameters": [
+          {
+            "type": "boolean",
+            "name": "public",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conversations were returned.",
+            "schema": {
+              "$ref": "#/definitions/conversation_list"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "description": "Bad Request",
+              "schema": {
+                "$ref": "#/definitions/error"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "description": "Unauthorized",
+              "schema": {
+                "$ref": "#/definitions/error"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "description": "Not Found",
+              "schema": {
+                "$ref": "#/definitions/error"
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "schema": {
+              "description": "Unknown",
+              "schema": {
+                "$ref": "#/definitions/error"
+              }
+            }
+          }
+        }
+      },
       "put": {
         "security": [
           {
@@ -1092,6 +1240,12 @@ func init() {
             "$ref": "#/definitions/user"
           }
         }
+      }
+    },
+    "conversation_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/conversation"
       }
     },
     "error": {

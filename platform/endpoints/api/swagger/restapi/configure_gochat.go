@@ -4,24 +4,36 @@ package restapi
 
 import (
 	"crypto/tls"
+	"log"
 	"net/http"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
+	"gochat/platform/endpoints/api/controller"
 	"gochat/platform/endpoints/api/swagger/models"
 	"gochat/platform/endpoints/api/swagger/restapi/operations"
 	"gochat/platform/endpoints/api/swagger/restapi/operations/stable"
+	"gochat/platform/internal/proto/pb"
 )
 
 //go:generate swagger generate server --target ../../swagger --name Gochat --spec ../swagger.yml --principal models.Principal --exclude-main
+
+// user - Create the User for all methods
+var user *pb.User
 
 func configureFlags(api *operations.GochatAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }
 
 func configureAPI(api *operations.GochatAPI) http.Handler {
+	// Create the Controller Instance
+	handlers, err := controller.NewHandlerController()
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+
 	// configure the api here
 	api.ServeError = errors.ServeError
 
@@ -40,10 +52,15 @@ func configureAPI(api *operations.GochatAPI) http.Handler {
 	api.JSONProducer = runtime.JSONProducer()
 
 	// Applies when the "Authorization" header is set
-	if api.JwtAuth == nil {
-		api.JwtAuth = func(token string) (*models.Principal, error) {
-			return nil, errors.NotImplemented("api key auth (jwt) Authorization from header param [Authorization] has not yet been implemented")
+	api.JwtAuth = func(token string) (*models.Principal, error) {
+		user, err = handlers.AuthenticateJWT(token)
+		if err != nil {
+			return nil, err
 		}
+
+		// Return the Token
+		return (*models.Principal)(&token), nil
+		//return nil, errors.NotImplemented("api key auth (jwt) Authorization from header param [Authorization] has not yet been implemented")
 	}
 
 	// Set your custom authorizer if needed. Default one is security.Authorized()
@@ -52,11 +69,25 @@ func configureAPI(api *operations.GochatAPI) http.Handler {
 	// Example:
 	// api.APIAuthorizer = security.Authorized()
 
-	if api.StablePostAccountHandler == nil {
-		api.StablePostAccountHandler = stable.PostAccountHandlerFunc(func(params stable.PostAccountParams, principal *models.Principal) middleware.Responder {
-			return middleware.NotImplemented("operation stable.PostAccount has not yet been implemented")
-		})
-	}
+	// [POST /auth/login]
+	api.StablePostAuthLoginHandler = stable.PostAuthLoginHandlerFunc(func(params stable.PostAuthLoginParams, principal *models.Principal) middleware.Responder {
+		return handlers.AuthLoginPost(params)
+	})
+
+	// [POST /account]
+	api.StablePostAccountHandler = stable.PostAccountHandlerFunc(func(params stable.PostAccountParams, principal *models.Principal) middleware.Responder {
+		return handlers.AccountPost(params)
+	})
+
+	// [PUT /account]
+	api.StablePutAccountHandler = stable.PutAccountHandlerFunc(func(params stable.PutAccountParams, principal *models.Principal) middleware.Responder {
+		return handlers.AccountPut(user, params)
+	})
+
+	// [GET /account]
+	api.StableGetAccountHandler = stable.GetAccountHandlerFunc(func(params stable.GetAccountParams, principal *models.Principal) middleware.Responder {
+		return handlers.AccountGet(user, params)
+	})
 
 	api.PreServerShutdown = func() {}
 

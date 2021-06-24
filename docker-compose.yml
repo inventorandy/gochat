@@ -27,6 +27,20 @@ services:
       - gochat-net
     ports:
       - 8080:8080
+  api:
+    container_name: gochat_service_api
+    image: gochat-service-api
+    restart: always
+    build:
+      context: .
+    env_file: .env
+    networks:
+      - gochat-net
+    ports:
+      - ${API_SERVICE_PORT}:${API_SERVICE_PORT}
+    depends_on:
+      - postgres
+    command: ./api
   account:
     container_name: gochat_service_accounts
     image: gochat-service-accounts

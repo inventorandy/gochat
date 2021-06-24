@@ -6,7 +6,7 @@ import (
 
 // ConversationController struct
 type ConversationController struct {
-	r *repository.ConversationRepository
+	r repository.Repository
 }
 
 // NewConversationController creates a new instance of the conversation controller

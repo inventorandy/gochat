@@ -69,8 +69,8 @@ func (c *AccountController) Login(in *pb.LoginRequest) (*pb.LoginResponse, error
 
 	// Otherwise, create the return object
 	loginResponse := &pb.LoginResponse{
-		Jwt:  tokenStr,
-		User: userOut,
+		AuthToken: tokenStr,
+		User:      userOut,
 	}
 
 	// Return the Login Response

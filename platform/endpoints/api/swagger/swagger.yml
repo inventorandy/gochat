@@ -36,6 +36,10 @@ paths:
           description: Account was created.
           schema:
             $ref: "#/definitions/user"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/responses/BadRequest"
         500:
           description: Unknown Error
           schema:
@@ -57,6 +61,10 @@ paths:
           description: Account was updated.
           schema:
             $ref: "#/definitions/user"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/responses/BadRequest"
         401:
           description: Unauthorized
           schema:
@@ -109,6 +117,38 @@ paths:
           schema:
             $ref: "#/responses/Unknown"
   /conversation:
+    get:
+      description: Fetches a list of conversations for a user.
+      tags:
+        - stable
+      security:
+        - jwt: []
+      parameters:
+        - name: public
+          in: query
+          required: false
+          type: boolean
+      responses:
+        200:
+          description: Conversations were returned.
+          schema:
+            $ref: "#/definitions/conversation_list"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/responses/BadRequest"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/responses/NotFound"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
     post:
       description: Creates a new conversation.
       tags:
@@ -356,6 +396,10 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/message"
+  conversation_list:
+    type: array
+    items:
+      $ref: "#/definitions/conversation"
   principal:
     type: string
       
