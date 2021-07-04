@@ -36,7 +36,6 @@ func NewHandlerController() (*HandlerController, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer accountConn.Close()
 
 	// Create the Client
 	accountClient := pb.NewAccountServiceClient(accountConn)
@@ -61,7 +60,6 @@ func NewHandlerController() (*HandlerController, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer conversationConn.Close()
 
 	// Create the Client
 	conversationClient := pb.NewConversationServiceClient(conversationConn)

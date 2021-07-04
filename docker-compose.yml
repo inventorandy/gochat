@@ -21,7 +21,7 @@ services:
       timeout: 5s
       retries: 5
   adminer:
-    container_name: gochat_adminder
+    container_name: gochat_adminer
     image: adminer
     networks:
       - gochat-net
@@ -69,17 +69,16 @@ services:
     depends_on:
       - postgres
     command: ./conversation
-#  frontend:
-#    container_name: gochat_frontend
-#    image: gochat-frontend
-#    restart: always
-#    build:
-#      context: .
-#    networks:
-#      - gochat-net
-#    ports:
-#      - 8000:8000
-#    command: rc-service nginx start
+  frontend:
+    container_name: gochat_frontend
+    restart: always
+    build:
+      dockerfile: ./frontend/Dockerfile
+      context: .
+    networks:
+      - gochat-net
+    ports:
+      - ${FRONTEND_PORT}:3000
 
 volumes:
   pgdata:

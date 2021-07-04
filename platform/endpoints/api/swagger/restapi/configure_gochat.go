@@ -10,6 +10,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/rs/cors"
 
 	"gochat/platform/endpoints/api/controller"
 	"gochat/platform/endpoints/api/swagger/models"
@@ -134,8 +135,16 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 	return handler
 }
 
+// Custom middleware for handling CORS.
+func corsMiddleware(handler http.Handler) http.Handler {
+	handleCORS := cors.AllowAll().Handler
+	return handleCORS(handler)
+}
+
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics.
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
+	// Handle CORS
+	handler = corsMiddleware(handler)
 	return handler
 }

@@ -1,0 +1,14 @@
+/* Font Styles */
+$body-font-family: Arial, Helvetica, sans-serif;
+
+/* Colours */
+$primary-color: #09f;
+
+/* General Styles */
+a {
+  color: $primary-color;
+
+  &:hover {
+    color: darken($primary-color, 15%);
+  }
+}

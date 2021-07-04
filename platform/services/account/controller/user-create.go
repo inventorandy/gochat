@@ -23,6 +23,12 @@ func (c *AccountController) CreateUser(in *pb.User) (*pb.User, error) {
 		return nil, fmt.Errorf("controller error: invalid email specified in CreateUser")
 	}
 
+	// Check for an existing user
+	existingUser, _ := c.r.GetUserByEmail(strfmt.Email(in.Email))
+	if existingUser != nil {
+		return nil, fmt.Errorf("controller error: user with this email already exists in CreateUser")
+	}
+
 	// Check that we have a password posted
 	if in.Password == "" {
 		return nil, fmt.Errorf("controller error: no password specified in CreateUser")
@@ -49,10 +55,10 @@ func (c *AccountController) CreateUser(in *pb.User) (*pb.User, error) {
 	userIn.ID = userID
 
 	// Generate a Salt for the Password (32 bytes / 256 bits)
-	salt := enc.GenerateSalt(32)
+	userIn.Salt = enc.GenerateSalt(32)
 
 	// Encrypt the Password with the Salt using SHA256
-	userIn.Password = enc.SHA256EncryptWithSalt(in.Password, salt)
+	userIn.Password = enc.SHA256EncryptWithSalt(in.Password, userIn.Salt)
 
 	// Call the Repository Method
 	user, err := c.r.CreateUser(userIn)
