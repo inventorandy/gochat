@@ -3,6 +3,7 @@ package repository
 import (
 	"fmt"
 	"gochat/platform/services/conversation/repository/types"
+	"log"
 	"os"
 
 	"gorm.io/driver/postgres"
@@ -55,9 +56,20 @@ func NewConversationRepository() (*ConversationRepository, error) {
 		return nil, fmt.Errorf("repository error: %s", err.Error())
 	}
 
+	// Migrate the Table Design
+	if err := db.AutoMigrate(&types.Message{}); err != nil {
+		return nil, fmt.Errorf("repository error: %s", err.Error())
+	}
+
 	// Create the Repository Object
 	repo := &ConversationRepository{
 		db: db,
+	}
+
+	// Create the Default Conversations
+	log.Println("CREATING DEFAULT CONVERSATIONS")
+	if err := repo.CreateDefaultConversations(); err != nil {
+		return nil, err
 	}
 
 	// Return the Repository Object

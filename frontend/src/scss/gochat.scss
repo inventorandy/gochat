@@ -3,10 +3,17 @@
 @import '_forms';
 @import '_notifications';
 
+html, body, #root {
+  min-height: 100%;
+}
+
 html, body {
   font-family: "Arial", "Helvetica", sans-serif;
 }
 
+/**
+ * Login Page
+ */
 form.login-form {
   display: block;
   width: 350px;
@@ -22,6 +29,9 @@ form.login-form {
   }
 }
 
+/**
+ * Registration Page
+ */
 div.registration-page {
   > form {
     display: block;
@@ -72,5 +82,70 @@ div.registration-page {
         grid-column-end: 3;
       }
     }
+  }
+}
+
+/**
+ * Chat Interface
+ */
+div.chat-interface-page {
+  display: flex;
+
+  div.sidebar {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    background-color: $primary-color;
+    color: white;
+    max-width: 280px;
+    width: 20%;
+    height: 100vh;
+    overflow: auto;
+
+    > h2:first-of-type {
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    > h3 {
+      margin: 1rem 0 0 0;
+    }
+
+    > ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+      > li {
+        margin: 0;
+        padding: 0;
+
+        > a {
+          &.channel {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 0.5rem 0 0.5rem 0.5rem;
+            display: block;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+
+  div.main-chat-container {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    width: 80%;
+    height: 100vh;
+    overflow: auto;
+    flex-grow: 1;
   }
 }

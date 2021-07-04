@@ -12,11 +12,11 @@ type Conversation struct {
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 	DeletedAt     *time.Time
-	LastMessageOn time.Time `json:"last_message_on"`
-	Label         string    `gorm:"type:text" json:"label"`
-	IsPublic      *bool     `gorm:"type:boolean" json:"is_public"`
-	Participants  []*ConversationHasParticipant
-	Messages      []*Message
+	LastMessageOn time.Time                     `json:"last_message_on"`
+	Label         string                        `gorm:"type:text" json:"label"`
+	IsPublic      *bool                         `gorm:"type:boolean" json:"is_public"`
+	Participants  []*ConversationHasParticipant `gorm:"foreign_key:conversation_id"`
+	Messages      []*Message                    `gorm:"foreign_key:conversation_id"`
 }
 
 // ConversationHasParticipant database model

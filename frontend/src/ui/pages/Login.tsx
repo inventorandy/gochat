@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { SetLoggedInUser } from '../../app/actions/user';
 import { appAPI } from '../../app/apiConn';
@@ -12,6 +13,9 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState<string>();
   const [error, setError] = useState<string>();
 
+  // Set the Browser History
+  const history = useHistory();
+
   // Login Method
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,6 +24,7 @@ const LoginPage: React.FC = () => {
       password: password
     };
 
+    // Make the API Request
     await appAPI.post("/auth/login", req).then(res => {
       // Handle the Login Response
       let loginResponse: LoginResponse = res.data;
@@ -29,13 +34,18 @@ const LoginPage: React.FC = () => {
 
       // Set the JWT
       localStorage.setItem("authToken", loginResponse.auth_token);
+
+      // Move to the Main Chat Interface
+      history.push("/");
     }).catch(error => {
+      // Get the Error Box Element
+      let errorBox = document.getElementById("login-error") as HTMLElement;
+
       // Check if we got an error response
       if (error.response) {
         // Handle the error in here
-        let errorBox = document.getElementById("login-error") as HTMLElement;
         let errorMsg: ErrorMessage = error.response.data;
-        errorBox.innerText = errorMsg.message;
+        setError(errorMsg.message);
         errorBox.classList.remove("hidden");
       }
     });

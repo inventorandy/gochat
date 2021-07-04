@@ -57,12 +57,14 @@ const RegisterPage: React.FC = () => {
 
       // Redirect to the Login Page
     }).catch(error => {
+      // Get the Error Box Element
+      let errorBox = document.getElementById("registration-error") as HTMLElement;
+      
       // Check if we got an error response
       if (error.response) {
         // Handle the error in here
-        let errorBox = document.getElementById("registration-error") as HTMLElement;
         let errorMsg: ErrorMessage = error.response.data;
-        errorBox.innerText = errorMsg.message;
+        setError(errorMsg.message);
         errorBox.classList.remove("hidden");
       }
     });
@@ -77,27 +79,27 @@ const RegisterPage: React.FC = () => {
         <div className="register-form-grid-container">
           <p>
             <label htmlFor="email">Email Address</label>
-            <input type="email" id="email" name="email" autoComplete="off" onChange={handleEmail} />
+            <input type="email" id="email" name="email" autoComplete="Off" onChange={handleEmail} />
           </p>
           <p>
             <label htmlFor="confirm-email">Confirm Email</label>
-            <input type="email" id="confirm-email" name="confirm_email" autoComplete="off" />
+            <input type="email" id="confirm-email" name="confirm_email" autoComplete="Off" />
           </p>
           <p>
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" autoComplete="off" onChange={handlePassword} />
+            <input type="password" id="password" name="password" autoComplete="Off" onChange={handlePassword} />
           </p>
           <p>
             <label htmlFor="confirm-password">Confirm Password</label>
-            <input type="password" id="confirm-password" name="confirm_password" autoComplete="off" />
+            <input type="password" id="confirm-password" name="confirm_password" autoComplete="Off" />
           </p>
           <p>
             <label htmlFor="first-name">First Name</label>
-            <input type="text" id="first-name" name="first_name" autoComplete="off" onChange={handleFirstName} />
+            <input type="text" id="first-name" name="first_name" autoComplete="Off" onChange={handleFirstName} />
           </p>
           <p>
             <label htmlFor="last-name">Last Name</label>
-            <input type="text" id="last-name" name="last_name" autoComplete="off" onChange={handleLastName} />
+            <input type="text" id="last-name" name="last_name" autoComplete="Off" onChange={handleLastName} />
           </p>
           <p>
             <button className="primary">Create Account</button>

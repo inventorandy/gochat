@@ -2,10 +2,11 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
 import './scss/gochat.scss';
+import PrivateRoute from './ui/components/PrivateRoute';
+import ChatInterface from './ui/pages/ChatInterface';
 import LoginPage from './ui/pages/Login';
 import RegisterPage from './ui/pages/Register';
 
@@ -19,9 +20,9 @@ function App() {
         <Route path="/auth/create-account">
           <RegisterPage />
         </Route>
-        <Route exact path="/">
+        <PrivateRoute path="/" component={ChatInterface}>
           <LoginPage />
-        </Route>
+        </PrivateRoute>
       </Switch>
     </Router>
   );

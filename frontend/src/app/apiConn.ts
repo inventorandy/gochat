@@ -5,8 +5,8 @@ export const appAPI = axios.create({
 })
 
 export const isLoggedIn = (): boolean => {
-  let jwt = localStorage.getItem("jwt");
-  if (jwt === "" || jwt === null) {
+  let authToken = localStorage.getItem("authToken");
+  if (authToken === "" || authToken === null) {
     return false;
   } else {
     return true;

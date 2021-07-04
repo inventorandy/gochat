@@ -1,6 +1,5 @@
 import { Dispatch } from 'redux';
-import { LoginRequest, LoginResponse, User, UserActions } from '../types/user';
-import { appAPI } from '../apiConn';
+import { User, UserActions } from '../types/user';
 
 export const SetLoggedInUser = (user: User) => async(dispatch: Dispatch) => {
   dispatch({
