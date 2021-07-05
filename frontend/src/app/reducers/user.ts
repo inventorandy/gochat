@@ -19,6 +19,11 @@ const userReducer = (state: UserState = initialState, action: UserActionTypes): 
       return {
         loggedInUser: action.user,
       }
+    case UserActions.GET_LOGGED_IN_USER:
+      console.log(action.user);
+      return {
+        loggedInUser: action.user,
+      }
     default:
       return state;
   }

@@ -9,6 +9,7 @@ import (
 	"github.com/gofrs/uuid"
 )
 
+// CreateDefaultConversations creates the default channels for the chat application
 func (r *ConversationRepository) CreateDefaultConversations() error {
 	// Create a new UUID for `#general` channel
 	generalID, err := uuid.NewV4()
@@ -23,7 +24,7 @@ func (r *ConversationRepository) CreateDefaultConversations() error {
 		// Create the Conversation
 		generalConversation := &types.Conversation{
 			ID:       generalID,
-			Label:    "#general",
+			Label:    "general",
 			IsPublic: ptr.Bool(true),
 		}
 		conv, err := r.CreateConversation(generalConversation)

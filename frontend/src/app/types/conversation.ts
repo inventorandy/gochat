@@ -21,6 +21,7 @@ export interface Conversation {
 export enum ConversationActions {
   GET_PUBLIC_CONVERSATIONS = 1,
   GET_PRIVATE_CONVERSATIONS = 2,
+  SET_CURRENT_CONVERSATION = 3
 }
 
 // Get Public Conversations Action Type
@@ -29,5 +30,17 @@ interface GetPublicConversations {
   conversations: Conversation[],
 }
 
+// Get Private Conversations Action Type
+interface GetPrivateConversations {
+  type: typeof ConversationActions.GET_PRIVATE_CONVERSATIONS,
+  conversations: Conversation[],
+}
+
+// Set Current Conversation Action Type
+interface SetCurrentConversation {
+  type: typeof ConversationActions.SET_CURRENT_CONVERSATION,
+  conversation: Conversation,
+}
+
 // Export the Action Types
-export type ConversationActionTypes = GetPublicConversations;
+export type ConversationActionTypes = GetPublicConversations | GetPrivateConversations | SetCurrentConversation;

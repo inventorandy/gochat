@@ -26,9 +26,11 @@ func (c *ConversationController) CreateConversation(in *pb.Conversation) (*pb.Co
 		in.Label = strings.ToLower(in.Label)
 
 		// Preceed the Label with a hashtag if not already done
-		if !strings.HasPrefix(in.Label, "#") {
-			in.Label = fmt.Sprintf("#%s", in.Label)
-		}
+		/*
+			if !strings.HasPrefix(in.Label, "#") {
+				in.Label = fmt.Sprintf("#%s", in.Label)
+			}
+		*/
 	}
 
 	// Create a new ID

@@ -8,6 +8,9 @@ import { ErrorMessage } from '../../app/types/error';
 import { LoginRequest, LoginResponse } from '../../app/types/user';
 
 const LoginPage: React.FC = () => {
+  // Set the Dispatcher
+  const dispatch = useDispatch();
+
   // Set the States
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
@@ -30,7 +33,7 @@ const LoginPage: React.FC = () => {
       let loginResponse: LoginResponse = res.data;
 
       // Set the Current User
-      SetLoggedInUser(loginResponse.user);
+      dispatch(SetLoggedInUser(loginResponse.user));
 
       // Set the JWT
       localStorage.setItem("authToken", loginResponse.auth_token);

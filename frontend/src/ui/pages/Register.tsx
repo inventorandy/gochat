@@ -1,11 +1,14 @@
-import { create } from 'domain';
 import * as React from 'react';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { appAPI } from '../../app/apiConn';
 import { ErrorMessage } from '../../app/types/error';
 import { User } from '../../app/types/user';
 
 const RegisterPage: React.FC = () => {
+  // Set the Browser History
+  const history = useHistory();
+  
   // Set the States
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
@@ -52,10 +55,8 @@ const RegisterPage: React.FC = () => {
 
     // Send the API Request
     await appAPI.post("/account", account).then(res => {
-      // Get the Account Response
-      let newAccount: User = res.data;
-
       // Redirect to the Login Page
+      history.pushState('/auth/login');
     }).catch(error => {
       // Get the Error Box Element
       let errorBox = document.getElementById("registration-error") as HTMLElement;

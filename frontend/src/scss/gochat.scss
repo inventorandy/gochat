@@ -121,17 +121,30 @@ div.chat-interface-page {
         margin: 0;
         padding: 0;
 
-        > a {
+        > button {
           &.channel {
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
             padding: 0.5rem 0 0.5rem 0.5rem;
             display: block;
+            background: $primary-color;
+            border-radius: 0.25rem;
+            border: none;
             color: white;
             font-size: 0.9rem;
             font-weight: bold;
+            text-align: left;
+            text-shadow: none;
             text-decoration: none;
+
+            &:hover {
+              background: darken($primary-color, 5%);
+            }
+
+            &.selected {
+              background: darken($primary-color, 7.5%);
+            }
           }
         }
       }
@@ -147,5 +160,48 @@ div.chat-interface-page {
     height: 100vh;
     overflow: auto;
     flex-grow: 1;
+
+    > div.inner {
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: min-content auto 90px;
+      height: 100%;
+
+      > h1 {
+        display: block;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        margin: 0;
+        padding: 1rem 0;
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      > div.message-list {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      > form.message-editor {
+        background: rgba(0, 0, 0, 0.15);
+        display: block;
+        grid-column: 1;
+        grid-row: 3;
+
+        > div.inner {
+          display: grid;
+          grid-template-columns: auto 100px;
+          height: 100%;
+
+          > textarea.message-editor-input {
+            justify-self: stretch;
+            align-self: stretch;
+            resize: none;
+            outline: none;
+            grid-row: 1;
+            grid-column: 1;
+          }
+        }
+      }
+    }
   }
 }

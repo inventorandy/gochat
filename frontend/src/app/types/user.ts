@@ -22,8 +22,9 @@ export interface LoginResponse {
 // UserActions Definitions
 export enum UserActions {
   SET_LOGGED_IN_USER = 1,
-  CLEAR_LOGGED_IN_USER = 2,
-  LOGIN = 3,
+  GET_LOGGED_IN_USER = 2,
+  CLEAR_LOGGED_IN_USER = 3,
+  LOGIN = 4,
 }
 
 // Login User Action Type
@@ -32,5 +33,11 @@ interface SetLoggedInUser {
   user: User,
 }
 
+// Get Logged In User Action Type
+interface GetLoggedInUser {
+  type: typeof UserActions.GET_LOGGED_IN_USER,
+  user: User,
+}
+
 // Export the Action Type
-export type UserActionTypes = SetLoggedInUser;
+export type UserActionTypes = SetLoggedInUser | GetLoggedInUser;
