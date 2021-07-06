@@ -13,6 +13,7 @@ require (
 	github.com/go-openapi/validate v0.20.2
 	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/golang/protobuf v1.5.2
+	github.com/gorilla/websocket v1.4.2
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/rs/cors v1.8.0
 	golang.org/x/net v0.0.0-20210610132358-84b48f89b13b

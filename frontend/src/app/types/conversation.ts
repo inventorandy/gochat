@@ -6,6 +6,7 @@ export interface Message {
   conversation_id?: string;
   author_id?: string;
   message?: string;
+  created_at?: string;
 }
 
 // Conversation API Object

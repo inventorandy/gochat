@@ -41,6 +41,20 @@ services:
     depends_on:
       - postgres
     command: ./api
+  ws:
+    container_name: gochat_service_ws
+    restart: always
+    build:
+      dockerfile: ./platform/endpoints/ws/Dockerfile
+      context: .
+    env_file: .env
+    networks:
+      - gochat-net
+    ports:
+      - ${WS_SERVICE_PORT}:${WS_SERVICE_PORT}
+    depends_on:
+      - postgres
+    command: ./ws
   account:
     container_name: gochat_service_accounts
     restart: always

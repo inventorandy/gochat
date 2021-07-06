@@ -9,7 +9,7 @@ import (
 // Message database model
 type Message struct {
 	ID             uuid.UUID `gorm:"type:text" json:"id"`
-	CreatedAt      time.Time
+	CreatedAt      time.Time `json:"created_at"`
 	UpdatedAt      time.Time
 	DeletedAt      *time.Time
 	ConversationID uuid.UUID `gorm:"foreign_key:conversation_id" json:"conversation_id"`

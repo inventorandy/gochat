@@ -2,12 +2,14 @@ package server
 
 import (
 	"gochat/platform/internal/proto/pb"
+	"log"
 
 	"github.com/golang/protobuf/ptypes/empty"
 )
 
 // ChatStream gRPC Stream Method
 func (s *ConversationService) ChatStream(in *empty.Empty, srv pb.ConversationService_ChatStreamServer) error {
+	log.Println("Requesting connection to chat stream...")
 	// Create the Chat Event Connection
 	conn := &ChatEventConnection{
 		stream: srv,
@@ -17,8 +19,8 @@ func (s *ConversationService) ChatStream(in *empty.Empty, srv pb.ConversationSer
 
 	// Add the Connection to the List
 	s.chatMtx.Lock()
-	defer s.chatMtx.Unlock()
 	s.ChatEventConnections = append(s.ChatEventConnections, conn)
+	s.chatMtx.Unlock()
 
 	// Return any error sent
 	return <-conn.err

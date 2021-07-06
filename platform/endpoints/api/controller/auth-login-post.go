@@ -13,7 +13,6 @@ import (
 
 // AuthLoginPost [POST /auth/login]
 func (c *HandlerController) AuthLoginPost(in stable.PostAuthLoginParams) middleware.Responder {
-	log.Printf("USER: %v %v\r\n", in.Login.Email, in.Login.Password)
 	// Call the Service Method
 	loginResponse, err := c.accounts.Login(context.Background(), &pb.LoginRequest{
 		Email:    in.Login.Email.String(),

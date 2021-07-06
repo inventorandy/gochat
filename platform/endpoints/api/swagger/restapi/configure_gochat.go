@@ -110,6 +110,11 @@ func configureAPI(api *operations.GochatAPI) http.Handler {
 		return handlers.ConversationIDGet(user, params)
 	})
 
+	// [POST /message]
+	api.StablePostMessageHandler = stable.PostMessageHandlerFunc(func(params stable.PostMessageParams, principal *models.Principal) middleware.Responder {
+		return handlers.MessagePost(user, params)
+	})
+
 	api.PreServerShutdown = func() {}
 
 	api.ServerShutdown = func() {}

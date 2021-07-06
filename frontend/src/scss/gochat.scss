@@ -179,6 +179,7 @@ div.chat-interface-page {
       > div.message-list {
         grid-column: 1;
         grid-row: 2;
+        overflow: auto;
       }
 
       > form.message-editor {
@@ -199,6 +200,13 @@ div.chat-interface-page {
             outline: none;
             grid-row: 1;
             grid-column: 1;
+          }
+
+          > button.send-message-button {
+            justify-self: stretch;
+            align-self: stretch;
+            grid-row: 1;
+            grid-column: 2;
           }
         }
       }

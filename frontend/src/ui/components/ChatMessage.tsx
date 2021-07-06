@@ -12,6 +12,9 @@ export const ChatMessage: React.FC<ChatMessageProps> = (props: ChatMessageProps)
       <div className="content">
         {props.message.message}
       </div>
+      <div className="message-info">
+        Sent at {props.message.created_at}
+      </div>
     </div>
   );
 }

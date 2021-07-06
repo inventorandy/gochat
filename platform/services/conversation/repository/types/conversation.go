@@ -16,7 +16,7 @@ type Conversation struct {
 	Label         string                        `gorm:"type:text" json:"label"`
 	IsPublic      *bool                         `gorm:"type:boolean" json:"is_public"`
 	Participants  []*ConversationHasParticipant `gorm:"foreign_key:conversation_id"`
-	Messages      []*Message                    `gorm:"foreign_key:conversation_id"`
+	Messages      []*Message                    `gorm:"foreign_key:conversation_id" json:"messages"`
 }
 
 // ConversationHasParticipant database model

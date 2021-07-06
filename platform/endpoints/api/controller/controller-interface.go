@@ -22,4 +22,7 @@ type Controller interface {
 	ConversationPost(in stable.PostConversationParams) middleware.Responder
 	ConversationPut(in stable.PutConversationParams) middleware.Responder
 	ConversationGet(in stable.GetConversationParams) middleware.Responder
+
+	// Message
+	MessagePost(user *pb.User, in stable.PostMessageParams) middleware.Responder
 }
