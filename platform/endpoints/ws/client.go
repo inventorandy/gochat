@@ -25,8 +25,9 @@ type WebSocketClientHandler struct {
 
 // Event is the interface for a websocket event
 type Event struct {
-	Type string
-	Data interface{}
+	Type      string      `json:"type"`
+	EventType string      `json:"event_type"`
+	Data      interface{} `json:"data"`
 }
 
 func (s *WebSocketClientHandler) run() {
@@ -51,5 +52,13 @@ func (s *WebSocketClientHandler) run() {
 				}
 			}
 		}
+	}
+}
+
+// run handler sends data to a client
+func (c *Client) run() {
+	for {
+		message := <-c.send
+		c.conn.WriteJSON(message)
 	}
 }

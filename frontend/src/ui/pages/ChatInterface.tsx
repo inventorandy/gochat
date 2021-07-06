@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetPrivateConversations, GetPublicConversations } from '../../app/actions/conversation';
 import { GetLoggedInUser } from '../../app/actions/user';
+import { ConnectConversationWebsocket } from '../../app/actions/conversation';
 import { AppState } from '../../app/rootReducer';
 import { ConversationList } from '../components/ConversationList';
 import { MessageEditor } from '../components/MessageEditor';
@@ -19,7 +20,7 @@ const ChatInterface: React.FC = () => {
   useEffect(() => {
     dispatch(GetPublicConversations());
     dispatch(GetPrivateConversations());
-    dispatch(GetLoggedInUser());
+    dispatch(ConnectConversationWebsocket())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

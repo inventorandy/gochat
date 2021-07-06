@@ -12,7 +12,7 @@ export const MessageList: React.FC<MessageListProps> = (props: MessageListProps)
       {props.conversation?.messages !== undefined && props.conversation?.messages !== null &&
         props.conversation?.messages.map((message, i) => {
           return(
-            <ChatMessage message={message} />
+            <ChatMessage message={message} key={message.id} />
           );
         })
       }

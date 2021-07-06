@@ -12,7 +12,11 @@ import (
 )
 
 // Upgrade the Connection to a Websocket Connection
-var upgrader = websocket.Upgrader{}
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
 
 // main Entrypoint
 func main() {
@@ -24,7 +28,7 @@ func main() {
 	}
 
 	// Log a message
-	log.Println("Starting websocket service on port ", wsPort)
+	log.Println("Starting websocket service on port", wsPort)
 
 	// Get the Accounts Service Host
 	accountHost, exists := os.LookupEnv("ACCOUNT_SERVICE_HOST")

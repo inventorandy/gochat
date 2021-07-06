@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Dispatch } from 'redux';
 
 export const appAPI = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`

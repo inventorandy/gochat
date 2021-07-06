@@ -24,5 +24,5 @@ func (s *WebSocketClientHandler) ConversationHandler(w http.ResponseWriter, r *h
 	s.register <- wsClient
 
 	// Run the Listener
-	go s.run()
+	go wsClient.run()
 }

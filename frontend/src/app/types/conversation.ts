@@ -19,6 +19,13 @@ export interface Conversation {
   messages?: Message[];
 }
 
+// Conversation Websocket Message
+export interface ConverationWebsocketMessage {
+  type?: string;
+  event_type?: string;
+  data?: Conversation | Message;
+}
+
 export enum ConversationActions {
   GET_PUBLIC_CONVERSATIONS = 1,
   GET_PRIVATE_CONVERSATIONS = 2,
