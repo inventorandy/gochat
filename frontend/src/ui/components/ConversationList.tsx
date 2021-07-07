@@ -14,7 +14,7 @@ export const ConversationList: React.FC<ConversationListProps> = (props: Convers
   // Method for Selecting a Conversation Channel
   const selectConversation = (e: React.MouseEvent<HTMLElement>,conversation: Conversation) => {
     // Set the Current Conversation
-    dispatch(SetCurrentConversation(conversation));
+    dispatch(SetCurrentConversation(conversation.id));
 
     // Update some ClassNames...
     let buttons: HTMLCollectionOf<Element> = document.getElementsByClassName("channel");

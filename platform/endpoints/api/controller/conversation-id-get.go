@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"fmt"
 	"gochat/platform/endpoints/api/swagger/models"
 	"gochat/platform/endpoints/api/swagger/restapi/operations/stable"
 	"gochat/platform/internal/pbjson"
@@ -30,6 +31,21 @@ func (c *HandlerController) ConversationIDGet(user *pb.User, in stable.GetConver
 		return stable.NewGetConversationIDBadRequest().WithPayload(&models.Error{
 			Message: "Could not convert conversation to a readable format.",
 		})
+	}
+
+	// Loop through the Conversation Messages
+	if len(rtnConversation.Messages) > 0 {
+		for i, message := range rtnConversation.Messages {
+			// Get the User
+			author, err := c.accounts.GetUserByID(context.Background(), &wrappers.StringValue{Value: message.AuthorID.String()})
+			if err != nil {
+				log.Println(err.Error())
+				rtnConversation.Messages[i].AuthorName = "Unknown Sender"
+			}
+
+			// Set the Author
+			rtnConversation.Messages[i].AuthorName = fmt.Sprintf("%s %s", author.FirstName, author.LastName)
+		}
 	}
 
 	// Check if the conversation is public

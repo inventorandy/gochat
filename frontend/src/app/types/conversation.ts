@@ -5,6 +5,7 @@ export interface Message {
   id?: string;
   conversation_id?: string;
   author_id?: string;
+  author_name?: string;
   message?: string;
   created_at?: string;
 }

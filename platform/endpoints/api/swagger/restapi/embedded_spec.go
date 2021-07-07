@@ -562,6 +562,10 @@ func init() {
           "type": "string",
           "format": "uuid"
         },
+        "author_name": {
+          "type": "string",
+          "example": "John Smith"
+        },
         "conversation_id": {
           "type": "string",
           "format": "uuid"
@@ -1281,6 +1285,10 @@ func init() {
         "author_id": {
           "type": "string",
           "format": "uuid"
+        },
+        "author_name": {
+          "type": "string",
+          "example": "John Smith"
         },
         "conversation_id": {
           "type": "string",

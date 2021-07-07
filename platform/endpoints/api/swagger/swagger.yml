@@ -370,6 +370,9 @@ definitions:
       author_id:
         type: string
         format: uuid
+      author_name:
+        type: string
+        example: John Smith
       message:
         type: string
   conversation:

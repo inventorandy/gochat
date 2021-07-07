@@ -23,6 +23,10 @@ type Message struct {
 	// Format: uuid
 	AuthorID strfmt.UUID `json:"author_id,omitempty"`
 
+	// author name
+	// Example: John Smith
+	AuthorName string `json:"author_name,omitempty"`
+
 	// conversation id
 	// Format: uuid
 	ConversationID strfmt.UUID `json:"conversation_id,omitempty"`

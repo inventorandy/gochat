@@ -1,5 +1,8 @@
+import { useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { appAPI } from "../apiConn";
+import { AppState } from "../rootReducer";
+import { store } from "../store";
 import { ConverationWebsocketMessage, Conversation, ConversationActions, Message } from "../types/conversation";
 
 /**
@@ -24,7 +27,7 @@ export const GetPublicConversations = () => (dispatch: Dispatch) => {
  * Get a list of private conversation channels
  */
 export const GetPrivateConversations = () => (dispatch: Dispatch) => {
-  appAPI.get("/conversations", { headers: { "Authorization": localStorage.getItem("authToken") } }).then(res => {
+  appAPI.get("/conversation", { headers: { "Authorization": localStorage.getItem("authToken") } }).then(res => {
     // Get the Conversation List from the Response
     let conversations: Conversation[] = res.data;
 
@@ -41,11 +44,18 @@ export const GetPrivateConversations = () => (dispatch: Dispatch) => {
 /**
  * Set the Current Conversation
  */
-export const SetCurrentConversation = (conversation: Conversation) => (dispatch: Dispatch) => {
-  // Do the Dispatch
-  dispatch({
-    type: ConversationActions.SET_CURRENT_CONVERSATION,
-    conversation: conversation,
+export const SetCurrentConversation = (conversationID: string | undefined) => (dispatch: Dispatch) => {
+  appAPI.get("/conversation/" + conversationID, { headers: { "Authorization": localStorage.getItem("authToken") } }).then(res => {
+    // Get the Conversation List from the Response
+    let conversation: Conversation = res.data;
+
+    // Do the Dispatch
+    dispatch({
+      type: ConversationActions.SET_CURRENT_CONVERSATION,
+	    conversation: conversation,
+    })
+  }).catch(error => {
+    // Handle the Error Response
   })
 }
 
@@ -71,6 +81,7 @@ export const ConnectConversationWebsocket = () => (dispatch: Dispatch) => {
     switch (wsEvent.type) {
       case "MESSAGE":
         console.log("message received...");
+        ProcessNewMessage(wsEvent.data as Message, dispatch);
         break;
       default:
         console.log("unknown packet type...");
@@ -81,5 +92,26 @@ export const ConnectConversationWebsocket = () => (dispatch: Dispatch) => {
   }
   socket.onerror = error => {
     console.log("Socket Error: ", error);
+  }
+}
+
+// Process Handling of new message on websocket
+const ProcessNewMessage = (message: Message, dispatch: Dispatch) => {
+  // Define the API States
+  const conversationState = store.getState().conversationState;
+  
+  // Check if the message belongs to the current conversation
+  if (message.conversation_id === conversationState.currentConversation?.id) {
+    // Get the Current Conversation
+    let conversation = conversationState.currentConversation;
+
+    // Add the Message
+    conversation?.messages?.push(message);
+
+    // Do the Dispatch
+    dispatch({
+      type: ConversationActions.SET_CURRENT_CONVERSATION,
+	    conversation: conversation,
+    })
   }
 }

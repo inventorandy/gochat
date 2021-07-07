@@ -17,7 +17,7 @@ func (c *ConversationController) GetConversationByID(in *wrappers.StringValue) (
 	}
 
 	// Convert to a UUID
-	conversationID, err := uuid.NewV4()
+	conversationID, err := uuid.FromString(in.Value)
 	if err != nil {
 		return nil, fmt.Errorf("controller error: %s", err.Error())
 	}
