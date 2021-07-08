@@ -56,7 +56,7 @@ const RegisterPage: React.FC = () => {
     // Send the API Request
     await appAPI.post("/account", account).then(res => {
       // Redirect to the Login Page
-      history.pushState('/auth/login');
+      history.push('/auth/login');
     }).catch(error => {
       // Get the Error Box Element
       let errorBox = document.getElementById("registration-error") as HTMLElement;

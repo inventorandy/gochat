@@ -103,13 +103,38 @@ div.chat-interface-page {
     height: 100vh;
     overflow: auto;
 
+    > button.logout {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 0.5rem 0 0.5rem 0.5rem;
+      display: block;
+      background: $primary-color;
+      border-radius: 0.25rem;
+      border: none;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: normal;
+      text-align: center;
+      text-shadow: none;
+      text-decoration: none;
+
+      &:hover {
+        background: darken($primary-color, 5%);
+      }
+
+      &.selected {
+        background: darken($primary-color, 7.5%);
+      }
+    }
+
     > h2:first-of-type {
       margin-top: 0.5rem;
       text-align: center;
     }
 
     > h3 {
-      margin: 1rem 0 0 0;
+      margin: 1rem 0 0.5rem 0;
     }
 
     > ul {
@@ -180,6 +205,29 @@ div.chat-interface-page {
         grid-column: 1;
         grid-row: 2;
         overflow: auto;
+
+        > div.chat-message {
+          padding: 0.5rem 0;
+
+          > h4 {
+            font-size: 1rem;
+            margin: 0.25rem 0;
+            width: 100%;
+            display: flex;
+            flex-wrap: nowrap;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+
+            > span.message-info {
+              font-size: 0.75rem;
+              color: #bbb;
+            }
+          }
+
+          > div.content {
+            padding: 0.5rem 0;
+          }
+        }
       }
 
       > form.message-editor {

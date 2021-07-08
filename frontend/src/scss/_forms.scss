@@ -30,10 +30,10 @@ button {
   cursor: pointer;
 
   &.primary {
-    background: linear-gradient(0deg, darken($primary-color, 5%) 25%, lighten($primary-color, 5%) 75%);
+    background: linear-gradient(0deg, darken($primary-color, 2%) 25%, lighten($primary-color, 2%) 75%);
 
     &:hover {
-      background: linear-gradient(0deg, lighten($primary-color, 5%) 25%, darken($primary-color, 5%) 75%);
+      background: linear-gradient(0deg, lighten($primary-color, 2%) 25%, darken($primary-color, 2%) 75%);
     }
   }
 }

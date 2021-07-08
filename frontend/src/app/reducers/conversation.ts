@@ -21,13 +21,16 @@ const initialState: ConversationState = {
 const conversationReducer = (state: ConversationState = initialState, action: ConversationActionTypes): ConversationState => {
   switch(action.type) {
     case ConversationActions.GET_PUBLIC_CONVERSATIONS:
-      if (state.currentConversation === undefined && action.conversations !== undefined) {
+      /*if (state.currentConversation === undefined && action.conversations !== undefined) {
+        console.log("Setting current conversation...");
+        console.log(action.conversations[0]);
         SetCurrentConversation(action.conversations[0].id);
         return {
           ...state,
+          currentConversation: action.conversations[0],
           publicConversations: action.conversations,
         }
-      }
+      }*/
       return {
         ...state,
         publicConversations: action.conversations,

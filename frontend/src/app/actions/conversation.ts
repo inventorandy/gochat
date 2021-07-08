@@ -18,6 +18,22 @@ export const GetPublicConversations = () => (dispatch: Dispatch) => {
       type: ConversationActions.GET_PUBLIC_CONVERSATIONS,
 	    conversations: conversations,
     })
+
+    // If we don't have a current conversation, set it to the first item in the return array
+    if (store.getState().conversationState.currentConversation === undefined && conversations !== undefined) {
+      appAPI.get("/conversation/" + conversations[0].id, { headers: { "Authorization": localStorage.getItem("authToken") } }).then(res => {
+        // Get the Conversation List from the Response
+        let conversation: Conversation = res.data;
+    
+        // Do the Dispatch
+        dispatch({
+          type: ConversationActions.SET_CURRENT_CONVERSATION,
+          conversation: conversation,
+        })
+      }).catch(error => {
+        // Handle the Error Response
+      })
+    }
   }).catch(error => {
     // Handle the Error Response
   })

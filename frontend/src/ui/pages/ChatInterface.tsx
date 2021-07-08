@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetPrivateConversations, GetPublicConversations } from '../../app/actions/conversation';
 import { GetLoggedInUser } from '../../app/actions/user';
@@ -13,6 +14,9 @@ const ChatInterface: React.FC = () => {
   // Set the Dispatcher
   const dispatch = useDispatch();
 
+  // Set the Browser History
+  const history = useHistory();
+
   // Define the API States
   const conversationState = useSelector((state: AppState) => state.conversationState);
 
@@ -24,6 +28,11 @@ const ChatInterface: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem("authToken");
+    history.push("/auth/login");
+  }
+
   return(
     <div className="chat-interface-page">
       <div className="sidebar">
@@ -32,6 +41,8 @@ const ChatInterface: React.FC = () => {
         <ConversationList conversations={conversationState.publicConversations} />
         <h3>Private Channels</h3>
         <ConversationList conversations={conversationState.privateConversations} />
+        <hr />
+        <button className="logout" onClick={logout}>Log Out</button>
       </div>
       <div className="main-chat-container">
         <div className="inner">
