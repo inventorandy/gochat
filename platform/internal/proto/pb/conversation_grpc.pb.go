@@ -27,6 +27,7 @@ type ConversationServiceClient interface {
 	AddUserToConversation(ctx context.Context, in *ConversationHasParticipant, opts ...grpc.CallOption) (*Conversation, error)
 	GetPublicConversations(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ConversationList, error)
 	GetPrivateConversationsForUser(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*ConversationList, error)
+	UserHasAccessToConversation(ctx context.Context, in *UserAccessQuery, opts ...grpc.CallOption) (*wrapperspb.BoolValue, error)
 	// Message Methods
 	CreateMessage(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
 	// Streaming Methods
@@ -95,6 +96,15 @@ func (c *conversationServiceClient) GetPrivateConversationsForUser(ctx context.C
 	return out, nil
 }
 
+func (c *conversationServiceClient) UserHasAccessToConversation(ctx context.Context, in *UserAccessQuery, opts ...grpc.CallOption) (*wrapperspb.BoolValue, error) {
+	out := new(wrapperspb.BoolValue)
+	err := c.cc.Invoke(ctx, "/pb.ConversationService/UserHasAccessToConversation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *conversationServiceClient) CreateMessage(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
 	out := new(Message)
 	err := c.cc.Invoke(ctx, "/pb.ConversationService/CreateMessage", in, out, opts...)
@@ -147,6 +157,7 @@ type ConversationServiceServer interface {
 	AddUserToConversation(context.Context, *ConversationHasParticipant) (*Conversation, error)
 	GetPublicConversations(context.Context, *emptypb.Empty) (*ConversationList, error)
 	GetPrivateConversationsForUser(context.Context, *wrapperspb.StringValue) (*ConversationList, error)
+	UserHasAccessToConversation(context.Context, *UserAccessQuery) (*wrapperspb.BoolValue, error)
 	// Message Methods
 	CreateMessage(context.Context, *Message) (*Message, error)
 	// Streaming Methods
@@ -175,6 +186,9 @@ func (UnimplementedConversationServiceServer) GetPublicConversations(context.Con
 }
 func (UnimplementedConversationServiceServer) GetPrivateConversationsForUser(context.Context, *wrapperspb.StringValue) (*ConversationList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPrivateConversationsForUser not implemented")
+}
+func (UnimplementedConversationServiceServer) UserHasAccessToConversation(context.Context, *UserAccessQuery) (*wrapperspb.BoolValue, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserHasAccessToConversation not implemented")
 }
 func (UnimplementedConversationServiceServer) CreateMessage(context.Context, *Message) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMessage not implemented")
@@ -303,6 +317,24 @@ func _ConversationService_GetPrivateConversationsForUser_Handler(srv interface{}
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ConversationService_UserHasAccessToConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserAccessQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConversationServiceServer).UserHasAccessToConversation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.ConversationService/UserHasAccessToConversation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConversationServiceServer).UserHasAccessToConversation(ctx, req.(*UserAccessQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ConversationService_CreateMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Message)
 	if err := dec(in); err != nil {
@@ -372,6 +404,10 @@ var ConversationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPrivateConversationsForUser",
 			Handler:    _ConversationService_GetPrivateConversationsForUser_Handler,
+		},
+		{
+			MethodName: "UserHasAccessToConversation",
+			Handler:    _ConversationService_UserHasAccessToConversation_Handler,
 		},
 		{
 			MethodName: "CreateMessage",

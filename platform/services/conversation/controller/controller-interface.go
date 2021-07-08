@@ -16,6 +16,7 @@ type Controller interface {
 	AddUserToConversation(in *pb.ConversationHasParticipant) (*pb.Conversation, error)
 	GetPublicConversations(in *empty.Empty) (*pb.ConversationList, error)
 	GetPrivateConversationsForUser(in *wrappers.StringValue) (*pb.ConversationList, error)
+	UserHasAccessToConversation(in *pb.UserAccessQuery) (*wrappers.BoolValue, error)
 
 	// Message Methods
 	CreateMessage(in *pb.Message) (*pb.Message, error)

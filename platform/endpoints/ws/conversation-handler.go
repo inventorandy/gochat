@@ -7,6 +7,14 @@ import (
 
 // ConversationHandler deals with websocket connections to [/conversation]
 func (s *WebSocketClientHandler) ConversationHandler(w http.ResponseWriter, r *http.Request) {
+	// Get the User
+	authToken, err := r.Cookie("authToken")
+	if err != nil {
+		log.Println(err.Error())
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	// Upgrade the HTTP connection to WS
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -17,7 +25,8 @@ func (s *WebSocketClientHandler) ConversationHandler(w http.ResponseWriter, r *h
 	// Create the Websocket Client
 	wsClient := &Client{
 		conn: conn,
-		send: make(chan interface{}, 256),
+		jwt:  authToken.Value,
+		send: make(chan Event, 256),
 	}
 
 	// Register the new Client

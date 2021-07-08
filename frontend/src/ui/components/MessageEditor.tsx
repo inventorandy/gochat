@@ -21,6 +21,22 @@ export const MessageEditor: React.FC = () => {
     setMessage(message);
   }
 
+  // Handle the User pressing Enter in the textarea (sends the message)
+  const enterSendMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const chatMessage: Message = {
+        conversation_id: conversationState.currentConversation?.id,
+        message: message
+      }
+      dispatch(SendMessage(chatMessage));
+
+      // Clear the Message Box
+      let messageBox: HTMLTextAreaElement = document.getElementById("message-content") as HTMLTextAreaElement;
+      messageBox.value = "";
+    }
+  }
+
   // Send the Message to the API
   const sendMessage = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -39,7 +55,7 @@ export const MessageEditor: React.FC = () => {
   return(
     <form className="message-editor">
       <div className="inner">
-        <textarea className="message-editor-input" id="message-content" name="message_content" onChange={handleMessage}></textarea>
+        <textarea className="message-editor-input" id="message-content" name="message_content" onChange={handleMessage} onKeyDown={enterSendMessage}></textarea>
         <button className="send-message-button primary" id="send-message" onClick={sendMessage}>Send</button>
       </div>
     </form>

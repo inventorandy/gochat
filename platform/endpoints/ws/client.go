@@ -10,17 +10,19 @@ import (
 // Client wraps a single connection to the websocket server
 type Client struct {
 	conn *websocket.Conn
-	send chan interface{}
+	jwt  string
+	send chan Event
 }
 
 // WebSocketClientHandler manages connections between clients and internal gRPC streams
 type WebSocketClientHandler struct {
-	accounts      pb.AccountServiceClient
-	conversations pb.ConversationServiceClient
-	clients       map[*Client]bool
-	register      chan *Client
-	unregister    chan *Client
-	broadcast     chan interface{}
+	accounts       pb.AccountServiceClient
+	conversations  pb.ConversationServiceClient
+	authMiddleware func(Event, string) bool
+	clients        map[*Client]bool
+	register       chan *Client
+	unregister     chan *Client
+	broadcast      chan Event
 }
 
 // Event is the interface for a websocket event
@@ -43,12 +45,14 @@ func (s *WebSocketClientHandler) run() {
 			}
 		case message := <-s.broadcast:
 			for client := range s.clients {
-				select {
-				case client.send <- message:
-				default:
-					log.Println("Unregistering client")
-					close(client.send)
-					delete(s.clients, client)
+				if s.authMiddleware(message, client.jwt) {
+					select {
+					case client.send <- message:
+					default:
+						log.Println("Unregistering client")
+						close(client.send)
+						delete(s.clients, client)
+					}
 				}
 			}
 		}

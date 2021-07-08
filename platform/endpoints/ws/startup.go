@@ -80,12 +80,13 @@ func main() {
 
 	// Set up the Conversations Websocket Stream
 	conversationSocketHandler := &WebSocketClientHandler{
-		accounts:      accountClient,
-		conversations: conversationClient,
-		clients:       make(map[*Client]bool),
-		register:      make(chan *Client),
-		unregister:    make(chan *Client),
-		broadcast:     make(chan interface{}),
+		accounts:       accountClient,
+		conversations:  conversationClient,
+		authMiddleware: AuthConversation,
+		clients:        make(map[*Client]bool),
+		register:       make(chan *Client),
+		unregister:     make(chan *Client),
+		broadcast:      make(chan Event),
 	}
 	go conversationSocketHandler.run()
 	http.HandleFunc("/conversations", conversationSocketHandler.ConversationHandler)

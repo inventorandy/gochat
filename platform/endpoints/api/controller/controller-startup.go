@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"gochat/platform/internal/proto/pb"
+	"log"
 	"os"
 
 	"google.golang.org/grpc"
@@ -16,6 +17,8 @@ type HandlerController struct {
 
 // NewHandlerController creates a new instance of the Handler Controller
 func NewHandlerController() (*HandlerController, error) {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	// Get the Accounts Service Host
 	accountHost, exists := os.LookupEnv("ACCOUNT_SERVICE_HOST")
 	if !exists {

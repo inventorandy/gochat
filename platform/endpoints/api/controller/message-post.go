@@ -29,7 +29,6 @@ func (c *HandlerController) MessagePost(user *pb.User, in stable.PostMessagePara
 	// Send the Request
 	newMessage, err := c.conversations.CreateMessage(context.Background(), messageProto)
 	if err != nil {
-		log.Println(err.Error())
 		return stable.NewPostMessageBadRequest().WithPayload(&models.Error{
 			Message: "Unable to save message information.",
 		})

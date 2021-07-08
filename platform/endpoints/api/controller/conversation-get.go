@@ -14,7 +14,7 @@ import (
 )
 
 func (c *HandlerController) ConversationGet(user *pb.User, in stable.GetConversationParams) middleware.Responder {
-	if *in.Public {
+	if in.Public != nil && *in.Public {
 		// Get the Public Conversations
 		conversationList, err := c.conversations.GetPublicConversations(context.Background(), &empty.Empty{})
 		if err != nil {

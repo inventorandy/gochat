@@ -69,6 +69,8 @@ export const SendMessage = (message: Message) => (dispatch: Dispatch) => {
 
 export const ConnectConversationWebsocket = () => (dispatch: Dispatch) => {
   // Create the WebSocket
+  const token = localStorage.getItem("authToken");
+  document.cookie = `authToken=${token}; path=/`;
   const socket = new WebSocket(`${process.env.REACT_APP_WS_URL}/conversations`);
 
   // Create the Event Listeners
@@ -105,8 +107,16 @@ const ProcessNewMessage = (message: Message, dispatch: Dispatch) => {
     // Get the Current Conversation
     let conversation = conversationState.currentConversation;
 
-    // Add the Message
-    conversation?.messages?.push(message);
+    // Check if we have the conversation
+    if (conversation !== undefined) {
+      // Check if we have an array of messages
+      if (conversation?.messages === undefined) {
+        conversation.messages = new Array()
+      }
+
+      // Add the Message
+      conversation?.messages?.push(message);
+    }
 
     // Do the Dispatch
     dispatch({

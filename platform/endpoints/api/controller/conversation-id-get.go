@@ -41,10 +41,10 @@ func (c *HandlerController) ConversationIDGet(user *pb.User, in stable.GetConver
 			if err != nil {
 				log.Println(err.Error())
 				rtnConversation.Messages[i].AuthorName = "Unknown Sender"
+			} else {
+				// Set the Author
+				rtnConversation.Messages[i].AuthorName = fmt.Sprintf("%s %s", author.FirstName, author.LastName)
 			}
-
-			// Set the Author
-			rtnConversation.Messages[i].AuthorName = fmt.Sprintf("%s %s", author.FirstName, author.LastName)
 		}
 	}
 

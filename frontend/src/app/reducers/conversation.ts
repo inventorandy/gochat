@@ -1,3 +1,4 @@
+import { SetCurrentConversation } from '../actions/conversation';
 import { Conversation, ConversationActions, ConversationActionTypes } from '../types/conversation';
 
 // ConversationState
@@ -21,10 +22,10 @@ const conversationReducer = (state: ConversationState = initialState, action: Co
   switch(action.type) {
     case ConversationActions.GET_PUBLIC_CONVERSATIONS:
       if (state.currentConversation === undefined && action.conversations !== undefined) {
+        SetCurrentConversation(action.conversations[0].id);
         return {
           ...state,
           publicConversations: action.conversations,
-          currentConversation: action.conversations[0],
         }
       }
       return {

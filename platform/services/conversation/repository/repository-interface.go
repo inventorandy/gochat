@@ -19,6 +19,7 @@ type Repository interface {
 	GetPublicConversations() ([]*types.Conversation, error)
 	GetPrivateConversationsForUser(userID uuid.UUID) ([]*types.Conversation, error)
 	AddUserToConversation(userID uuid.UUID, conversationID uuid.UUID) error
+	GetConversationParticipantByID(conversationID uuid.UUID, userID uuid.UUID) (*types.ConversationHasParticipant, error)
 
 	// Message Methods
 	CreateMessage(message *types.Message) (*types.Message, error)

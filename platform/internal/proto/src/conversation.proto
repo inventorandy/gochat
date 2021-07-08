@@ -7,6 +7,12 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 
+// UserAccessQuery
+message UserAccessQuery {
+  string user_id = 1;
+  string conversation_id = 2;
+}
+
 // Message Protobuf Type
 message Message {
   string id = 1;
@@ -80,6 +86,7 @@ service ConversationService {
   rpc AddUserToConversation(ConversationHasParticipant) returns(Conversation);
   rpc GetPublicConversations(google.protobuf.Empty) returns(ConversationList);
   rpc GetPrivateConversationsForUser(google.protobuf.StringValue) returns(ConversationList);
+  rpc UserHasAccessToConversation(UserAccessQuery) returns(google.protobuf.BoolValue);
 
   // Message Methods
   rpc CreateMessage(Message) returns(Message);

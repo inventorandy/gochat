@@ -56,7 +56,7 @@ func configureAPI(api *operations.GochatAPI) http.Handler {
 	api.JwtAuth = func(token string) (*models.Principal, error) {
 		user, err = handlers.AuthenticateJWT(token)
 		if err != nil {
-			return nil, err
+			return nil, errors.Unauthenticated(err.Error())
 		}
 
 		// Return the Token
