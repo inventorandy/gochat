@@ -1,7 +1,14 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SetCurrentConversation } from '../../app/actions/conversation';
 import { Conversation } from '../../app/types/conversation';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faHashtag, faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AppState } from '../../app/rootReducer';
+
+// Add the Required Icons to the Library
+library.add( faHashtag, faLock );
 
 type ConversationListProps = {
   conversations?: Conversation[];
@@ -10,6 +17,9 @@ type ConversationListProps = {
 export const ConversationList: React.FC<ConversationListProps> = (props: ConversationListProps) => {
   // Set the Dispatcher
   const dispatch = useDispatch();
+
+  // Define the API States
+  const conversationState = useSelector((state: AppState) => state.conversationState);
 
   // Method for Selecting a Conversation Channel
   const selectConversation = (e: React.MouseEvent<HTMLElement>,conversation: Conversation) => {
@@ -30,12 +40,22 @@ export const ConversationList: React.FC<ConversationListProps> = (props: Convers
     {props.conversations !== undefined &&
       <ul>
         {props.conversations.map((conversation, i) => {
+          let cssClass = "channel";
+          if (conversation.id === conversationState.currentConversation?.id) {
+            cssClass += "selected";
+          }
           return(
             <li key={conversation.id}>
               <button
                 className="channel"
                 title={conversation.label}
                 onClick={(e: React.MouseEvent<HTMLElement>) => { selectConversation(e, conversation)}}>
+                  {conversation.is_public === true &&
+                    <FontAwesomeIcon icon="hashtag" />
+                  }
+                  {conversation.is_public !== true &&
+                    <FontAwesomeIcon icon="lock" />
+                  }
                   {conversation.label}
                 </button>
             </li>

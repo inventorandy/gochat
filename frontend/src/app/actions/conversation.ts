@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { appAPI } from "../apiConn";
-import { AppState } from "../rootReducer";
 import { store } from "../store";
 import { ConverationWebsocketMessage, Conversation, ConversationActions, Message } from "../types/conversation";
+
+var conversationSocket: WebSocket;
 
 /**
  * Get a list of public conversation channels
@@ -87,13 +87,13 @@ export const ConnectConversationWebsocket = () => (dispatch: Dispatch) => {
   // Create the WebSocket
   const token = localStorage.getItem("authToken");
   document.cookie = `authToken=${token}; path=/`;
-  const socket = new WebSocket(`${process.env.REACT_APP_WS_URL}/conversations`);
+  conversationSocket = new WebSocket(`${process.env.REACT_APP_WS_URL}/conversations`);
 
   // Create the Event Listeners
-  socket.onopen = event => {
+  conversationSocket.onopen = event => {
     console.log("Conversation websocket opened, getting fresh data...");
   }
-  socket.onmessage = event => {
+  conversationSocket.onmessage = event => {
     // Get the Event
     let wsEvent: ConverationWebsocketMessage = JSON.parse(event.data);
     switch (wsEvent.type) {
@@ -105,10 +105,10 @@ export const ConnectConversationWebsocket = () => (dispatch: Dispatch) => {
         console.log("unknown packet type...");
     }
   }
-  socket.onclose = event => {
+  conversationSocket.onclose = event => {
     console.log("Conversation websocket closed...");
   }
-  socket.onerror = error => {
+  conversationSocket.onerror = error => {
     console.log("Socket Error: ", error);
   }
 }
@@ -140,4 +140,8 @@ const ProcessNewMessage = (message: Message, dispatch: Dispatch) => {
 	    conversation: conversation,
     })
   }
+}
+
+export const CloseConversationWebsocket = () => {
+  conversationSocket.close()
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetPrivateConversations, GetPublicConversations } from '../../app/actions/conversation';
+import { CloseConversationWebsocket, GetPrivateConversations, GetPublicConversations } from '../../app/actions/conversation';
 import { GetLoggedInUser } from '../../app/actions/user';
 import { ConnectConversationWebsocket } from '../../app/actions/conversation';
 import { AppState } from '../../app/rootReducer';
@@ -29,6 +29,7 @@ const ChatInterface: React.FC = () => {
   }, []);
 
   const logout = () => {
+    CloseConversationWebsocket();
     localStorage.removeItem("authToken");
     history.push("/auth/login");
   }
