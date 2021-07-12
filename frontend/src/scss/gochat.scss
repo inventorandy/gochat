@@ -118,6 +118,7 @@ div.chat-interface-page {
       text-align: center;
       text-shadow: none;
       text-decoration: none;
+      cursor: pointer;
 
       &:hover {
         background: darken($primary-color, 5%);
@@ -135,6 +136,24 @@ div.chat-interface-page {
 
     > h3 {
       margin: 1rem 0 0.5rem 0;
+      display: flex;
+      flex-wrap: nowrap;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+
+      > button {
+        font-size: 0.75rem;
+        background: none;
+        border-radius: 0.25rem;
+        border: none;
+        padding: 0.3rem;
+        cursor: pointer;
+        width: auto;
+
+        &:hover {
+          background: darken($primary-color, 5%);
+        }
+      }
     }
 
     > ul {
