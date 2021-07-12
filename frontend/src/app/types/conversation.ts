@@ -30,7 +30,8 @@ export interface ConverationWebsocketMessage {
 export enum ConversationActions {
   GET_PUBLIC_CONVERSATIONS = 1,
   GET_PRIVATE_CONVERSATIONS = 2,
-  SET_CURRENT_CONVERSATION = 3
+  SET_CURRENT_CONVERSATION = 3,
+  CREATE_CONVERSATION = 4
 }
 
 // Get Public Conversations Action Type
@@ -51,5 +52,11 @@ interface SetCurrentConversation {
   conversation: Conversation,
 }
 
+// Create Conversation Action Type
+interface CreateConversation {
+  type: typeof ConversationActions.CREATE_CONVERSATION,
+  conversation: Conversation,
+}
+
 // Export the Action Types
-export type ConversationActionTypes = GetPublicConversations | GetPrivateConversations | SetCurrentConversation;
+export type ConversationActionTypes = GetPublicConversations | GetPrivateConversations | SetCurrentConversation | CreateConversation;

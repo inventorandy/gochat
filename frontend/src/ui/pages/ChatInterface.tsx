@@ -11,6 +11,8 @@ import { MessageList } from '../components/MessageList';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ModalDialog, { openDialog } from '../components/ModalDialog';
+import CreatePublicChannelDialog from '../components/CreatePublicChannelDialog';
 
 // Add the Required Icons to the Library
 library.add( faPlus );
@@ -48,7 +50,7 @@ const ChatInterface: React.FC = () => {
           <span className="channel-label">
             Channels
           </span>
-          <button>
+          <button onClick={(e) => openDialog("create-public-channel-dialog")}>
             <FontAwesomeIcon icon="plus" />
           </button>
         </h3>
@@ -65,6 +67,7 @@ const ChatInterface: React.FC = () => {
           <MessageEditor />
         </div>
       </div>
+      <CreatePublicChannelDialog />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { appAPI } from "../apiConn";
 import { store } from "../store";
 import { ConverationWebsocketMessage, Conversation, ConversationActions, Message } from "../types/conversation";
+import { ErrorMessage } from "../types/error";
 
 var conversationSocket: WebSocket;
 
@@ -73,6 +74,27 @@ export const SetCurrentConversation = (conversationID: string | undefined) => (d
   }).catch(error => {
     // Handle the Error Response
   })
+}
+
+/**
+ * Create a new Conversation
+ */
+export const CreateConversation = (conversation: Conversation, onSuccess: (conversation: Conversation) => void, onError: (error: ErrorMessage) => void) => (dispatch: Dispatch) => {
+  // Send the Post Request
+  appAPI.post("/conversation", conversation, { headers: { "Authorization": localStorage.getItem("authToken") } }).then(res => {
+    // Get the Returned Conversation
+    let rtnConversation = res.data;
+
+    // Call the Callback
+    onSuccess(rtnConversation);
+  }).catch(error => {
+    // Handle the Error Response
+    if (error.response) {
+      // Handle the error in here
+      let errorMsg: ErrorMessage = error.response.data;
+      onError(errorMsg);
+    }
+  });
 }
 
 /**

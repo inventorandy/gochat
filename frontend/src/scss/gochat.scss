@@ -1,6 +1,7 @@
 @import '_variables';
 @import '_display';
 @import '_forms';
+@import '_modal';
 @import '_notifications';
 
 html, body, #root {
@@ -279,6 +280,21 @@ div.chat-interface-page {
             grid-row: 1;
             grid-column: 2;
           }
+        }
+      }
+    }
+  }
+
+  > div.create-public-channel-dialog, div.create-private-channel-dialog {
+    > div.content {
+      p {
+        margin: 0 0 0.5rem 0;
+
+        label {
+          display: block;
+          font-size: 0.75rem;
+          font-weight: bold;
+          padding: 0.5rem 0;
         }
       }
     }
