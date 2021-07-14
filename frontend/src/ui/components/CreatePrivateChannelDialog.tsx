@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CreateConversation, GetPublicConversations } from '../../app/actions/conversation';
+import { CreateConversation, GetPrivateConversations } from '../../app/actions/conversation';
 import { AppState } from '../../app/rootReducer';
 import { Conversation } from '../../app/types/conversation';
 import { ErrorMessage } from '../../app/types/error';
 import ModalDialog, { closeDialog } from './ModalDialog';
 
-const CreatePublicChannelDialog: React.FC = () => {
+const CreatePrivateChannelDialog: React.FC = () => {
   // Set the Dispatcher
   const dispatch = useDispatch();
 
@@ -31,7 +31,7 @@ const CreatePublicChannelDialog: React.FC = () => {
     // Create the Conversation Object
     let conversation: Conversation = {
       label: channelName,
-      is_public: true,
+      is_public: false,
       messages: []
     }
 
@@ -42,28 +42,28 @@ const CreatePublicChannelDialog: React.FC = () => {
   // Callback for Successful Channel Creation
   const channelCreated = (conversation: Conversation) => {
     // Close the Dialog
-    closeDialog("create-public-channel-dialog");
+    closeDialog("create-private-channel-dialog");
 
     // Call the Fetch Conversations Method
-    dispatch(GetPublicConversations);
+    dispatch(GetPrivateConversations);
   }
 
   // Callback for Failed Channel Creation
   const channelCreateFailed = (error: ErrorMessage) => {
     // Get the Error Box Element
-    let errorBox = document.getElementById("create-public-channel-error") as HTMLElement;
+    let errorBox = document.getElementById("create-private-channel-error") as HTMLElement;
     setError(error.message);
     errorBox.classList.remove("hidden");
   }
 
   // Render Method
   return(
-    <ModalDialog id="create-public-channel-dialog" title="Create Channel" hideOnLoad={true} className="create-public-channel-dialog">
-      <form action="/create-public-channel" method="post" onSubmit={createChannel}>
-      <p id="create-public-channel-error" className="notification error hidden">{error}</p>
+    <ModalDialog id="create-private-channel-dialog" title="Create Private Channel" hideOnLoad={true} className="create-private-channel-dialog">
+      <form action="/create-private-channel" method="post" onSubmit={createChannel}>
+      <p id="create-private-channel-error" className="notification error hidden">{error}</p>
         <p>
-          <label htmlFor="public-channel-name">Channel Name</label>
-          <input type="text" id="public-channel-name" name="public_channel_name" autoComplete="Off" onChange={handleChannelName} required={true} />
+          <label htmlFor="private-channel-name">Channel Name</label>
+          <input type="text" id="private-channel-name" name="private_channel_name" autoComplete="Off" onChange={handleChannelName} />
         </p>
         <p>
           <button className="primary">Create Channel</button>
@@ -73,4 +73,4 @@ const CreatePublicChannelDialog: React.FC = () => {
   );
 }
 
-export default CreatePublicChannelDialog;
+export default CreatePrivateChannelDialog;

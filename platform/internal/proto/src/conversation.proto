@@ -32,7 +32,7 @@ message ConversationHasParticipant {
 message Conversation {
   string id = 1;
   string label = 2;
-  bool is_public = 3;
+  optional bool is_public = 3;
   google.protobuf.Timestamp last_message_on = 4;
   repeated ConversationHasParticipant participants = 5;
   repeated Message messages = 6;

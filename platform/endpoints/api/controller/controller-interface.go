@@ -19,7 +19,7 @@ type Controller interface {
 	AccountGet(user *pb.User, in stable.GetAccountParams) middleware.Responder
 
 	// Conversation
-	ConversationPost(in stable.PostConversationParams) middleware.Responder
+	ConversationPost(user *pb.User, in stable.PostConversationParams) middleware.Responder
 	ConversationPut(in stable.PutConversationParams) middleware.Responder
 	ConversationGet(in stable.GetConversationParams) middleware.Responder
 

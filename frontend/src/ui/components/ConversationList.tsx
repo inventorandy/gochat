@@ -42,12 +42,12 @@ export const ConversationList: React.FC<ConversationListProps> = (props: Convers
         {props.conversations.map((conversation, i) => {
           let cssClass = "channel";
           if (conversation.id === conversationState.currentConversation?.id) {
-            cssClass += "selected";
+            cssClass += " selected";
           }
           return(
             <li key={conversation.id}>
               <button
-                className="channel"
+                className={cssClass}
                 title={conversation.label}
                 onClick={(e: React.MouseEvent<HTMLElement>) => { selectConversation(e, conversation)}}>
                   {conversation.is_public === true &&

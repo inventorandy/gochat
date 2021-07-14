@@ -487,6 +487,10 @@ func init() {
   "definitions": {
     "conversation": {
       "type": "object",
+      "required": [
+        "is_public",
+        "messages"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -1211,6 +1215,10 @@ func init() {
   "definitions": {
     "conversation": {
       "type": "object",
+      "required": [
+        "is_public",
+        "messages"
+      ],
       "properties": {
         "id": {
           "type": "string",

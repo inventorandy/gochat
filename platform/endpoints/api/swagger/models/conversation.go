@@ -25,7 +25,8 @@ type Conversation struct {
 	ID strfmt.UUID `json:"id,omitempty"`
 
 	// is public
-	IsPublic bool `json:"is_public,omitempty"`
+	// Required: true
+	IsPublic *bool `json:"is_public"`
 
 	// label
 	// Example: #all-social
@@ -36,6 +37,7 @@ type Conversation struct {
 	LastMessageOn strfmt.DateTime `json:"last_message_on,omitempty"`
 
 	// messages
+	// Required: true
 	Messages []*Message `json:"messages"`
 
 	// participants
@@ -47,6 +49,10 @@ func (m *Conversation) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateIsPublic(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -80,6 +86,15 @@ func (m *Conversation) validateID(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Conversation) validateIsPublic(formats strfmt.Registry) error {
+
+	if err := validate.Required("is_public", "body", m.IsPublic); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *Conversation) validateLastMessageOn(formats strfmt.Registry) error {
 	if swag.IsZero(m.LastMessageOn) { // not required
 		return nil
@@ -93,8 +108,9 @@ func (m *Conversation) validateLastMessageOn(formats strfmt.Registry) error {
 }
 
 func (m *Conversation) validateMessages(formats strfmt.Registry) error {
-	if swag.IsZero(m.Messages) { // not required
-		return nil
+
+	if err := validate.Required("messages", "body", m.Messages); err != nil {
+		return err
 	}
 
 	for i := 0; i < len(m.Messages); i++ {

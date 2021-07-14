@@ -17,7 +17,7 @@ export interface Conversation {
   label?: string;
   is_public?: boolean;
   participants?: User[];
-  messages?: Message[];
+  messages: Message[];
 }
 
 // Conversation Websocket Message

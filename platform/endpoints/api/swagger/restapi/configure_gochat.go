@@ -92,7 +92,7 @@ func configureAPI(api *operations.GochatAPI) http.Handler {
 
 	// [POST /conversation]
 	api.StablePostConversationHandler = stable.PostConversationHandlerFunc(func(params stable.PostConversationParams, principal *models.Principal) middleware.Responder {
-		return handlers.ConversationPost(params)
+		return handlers.ConversationPost(user, params)
 	})
 
 	// [PUT /conversation]

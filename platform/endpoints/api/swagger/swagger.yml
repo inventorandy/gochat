@@ -377,6 +377,7 @@ definitions:
         type: string
   conversation:
     type: object
+    required: [is_public, messages]
     properties:
       id:
         type: string

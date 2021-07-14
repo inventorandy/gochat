@@ -11,8 +11,9 @@ import { MessageList } from '../components/MessageList';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ModalDialog, { openDialog } from '../components/ModalDialog';
+import { openDialog } from '../components/ModalDialog';
 import CreatePublicChannelDialog from '../components/CreatePublicChannelDialog';
+import CreatePrivateChannelDialog from '../components/CreatePrivateChannelDialog';
 
 // Add the Required Icons to the Library
 library.add( faPlus );
@@ -55,7 +56,14 @@ const ChatInterface: React.FC = () => {
           </button>
         </h3>
         <ConversationList conversations={conversationState.publicConversations} />
-        <h3>Private Channels</h3>
+        <h3>
+          <span className="channel-label">
+            Private Channels
+          </span>
+          <button onClick={(e) => openDialog("create-private-channel-dialog")}>
+            <FontAwesomeIcon icon="plus" />
+          </button>
+        </h3>
         <ConversationList conversations={conversationState.privateConversations} />
         <hr />
         <button className="logout" onClick={logout}>Log Out</button>
@@ -68,6 +76,7 @@ const ChatInterface: React.FC = () => {
         </div>
       </div>
       <CreatePublicChannelDialog />
+      <CreatePrivateChannelDialog />
     </div>
   );
 }

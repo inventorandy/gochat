@@ -49,7 +49,7 @@ func (c *HandlerController) ConversationIDGet(user *pb.User, in stable.GetConver
 	}
 
 	// Check if the conversation is public
-	if rtnConversation.IsPublic {
+	if *rtnConversation.IsPublic {
 		// Return the Conversation
 		return stable.NewGetConversationIDOK().WithPayload(rtnConversation)
 	}
