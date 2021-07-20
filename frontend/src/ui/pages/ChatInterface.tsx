@@ -32,7 +32,7 @@ const ChatInterface: React.FC = () => {
   useEffect(() => {
     dispatch(GetPublicConversations());
     dispatch(GetPrivateConversations());
-    dispatch(ConnectConversationWebsocket())
+    dispatch(ConnectConversationWebsocket());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

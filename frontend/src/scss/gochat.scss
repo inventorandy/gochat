@@ -299,4 +299,50 @@ div.chat-interface-page {
       }
     }
   }
+
+  > div.create-private-channel-dialog {
+    div.content {
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        > li {
+          display: inline;
+
+          > label {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0.2rem;
+            padding: 0.4rem;
+            background: #eee;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            color: black;
+            font-weight: bold;
+
+            &:hover {
+              background: darken(#eee, 10%);
+            }
+          }
+
+          > input[type=checkbox]:checked + label {
+            background: $primary-color;
+            color: white;
+
+            &:hover {
+              background: darken($primary-color, 10%);
+            }
+          }
+
+          input[type=checkbox] {
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }

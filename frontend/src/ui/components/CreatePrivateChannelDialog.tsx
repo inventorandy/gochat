@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CreateConversation, GetPrivateConversations } from '../../app/actions/conversation';
+import { GetAllUsers } from '../../app/actions/user';
 import { AppState } from '../../app/rootReducer';
 import { Conversation } from '../../app/types/conversation';
 import { ErrorMessage } from '../../app/types/error';
+import { User } from '../../app/types/user';
 import ModalDialog, { closeDialog } from './ModalDialog';
 
 const CreatePrivateChannelDialog: React.FC = () => {
@@ -13,15 +15,62 @@ const CreatePrivateChannelDialog: React.FC = () => {
 
   // Define the API States
   const conversationState = useSelector((state: AppState) => state.conversationState);
+  const userState = useSelector((state: AppState) => state.userState);
 
   // Set the States
   const [channelName, setChannelName] = useState<string>();
+  const [users, setUsers] = useState<User[]>();
+  const [conversation, setConversation] = useState<Conversation>();
   const [error, setError] = useState<string>();
+
+  // Load the Required API Data
+  useEffect(() => {
+    dispatch(GetAllUsers());
+    let newUserList = new Array<User>();
+    if (userState.loggedInUser !== undefined) {
+      newUserList.push(userState.loggedInUser);
+    }
+    setUsers(newUserList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Handle Channel Name Method
   const handleChannelName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const channelName = (e.target as HTMLInputElement).value;
     setChannelName(channelName);
+  }
+
+  // Handle Toggling a User
+  const toggleUser = (e: React.ChangeEvent<HTMLInputElement>, user: User) => {
+    //console.log(user);
+    let userList = users;
+    let didRemove = false;
+    if (userList !== undefined) {
+      for (var i = 0; i < userList.length; i++) {
+        if (userList[i].id === user.id) {
+          userList.splice(i, 1);
+          didRemove = true;
+          e.target.checked = false;
+        }
+      }
+    }
+    if (!didRemove) {
+      userList?.push(user);
+      e.target.checked = true;
+    }
+    setUsers(userList);
+  }
+
+  // Determine whether to check one of the user checkboxes
+  const isChecked = (user: User) => {
+    if (users !== undefined) {
+      for (var i = 0; i < users.length; i++) {
+        if (users[i].id === user.id) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   const createChannel = (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,7 +81,8 @@ const CreatePrivateChannelDialog: React.FC = () => {
     let conversation: Conversation = {
       label: channelName,
       is_public: false,
-      messages: []
+      messages: [],
+      participants: users
     }
 
     // Send the API Request
@@ -63,8 +113,19 @@ const CreatePrivateChannelDialog: React.FC = () => {
       <p id="create-private-channel-error" className="notification error hidden">{error}</p>
         <p>
           <label htmlFor="private-channel-name">Channel Name</label>
-          <input type="text" id="private-channel-name" name="private_channel_name" autoComplete="Off" onChange={handleChannelName} />
+          <input type="text" id="private-channel-name" name="private_channel_name" autoComplete="Off" onChange={handleChannelName} required />
         </p>
+        <p>Click User to add to the Channel</p>
+        <ul>
+          {userState.users?.map((user, i) => {
+            return(
+              <li key={user.id}>
+                <input defaultChecked={isChecked(user)} id={"checkbox-" + user.id} type="checkbox" onChange={(e: React.ChangeEvent<HTMLInputElement>) => { toggleUser(e, user); }} />
+                <label htmlFor={"checkbox-" + user.id}>{user.first_name} {user.last_name}</label>
+              </li>
+            )
+          })}
+        </ul>
         <p>
           <button className="primary">Create Channel</button>
         </p>

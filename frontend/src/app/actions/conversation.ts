@@ -25,7 +25,6 @@ export const GetPublicConversations = () => (dispatch: Dispatch) => {
       appAPI.get("/conversation/" + conversations[0].id, { headers: { "Authorization": localStorage.getItem("authToken") } }).then(res => {
         // Get the Conversation List from the Response
         let conversation: Conversation = res.data;
-        console.log(conversation);
     
         // Do the Dispatch
         dispatch({
@@ -150,7 +149,7 @@ const ProcessNewMessage = (message: Message, dispatch: Dispatch) => {
     if (conversation !== undefined) {
       // Check if we have an array of messages
       if (conversation.messages === null) {
-        conversation.messages = new Array()
+        conversation.messages = [];
       }
 
       // Add the Message

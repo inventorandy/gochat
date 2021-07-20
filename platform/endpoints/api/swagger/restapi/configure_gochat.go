@@ -90,6 +90,11 @@ func configureAPI(api *operations.GochatAPI) http.Handler {
 		return handlers.AccountGet(user, params)
 	})
 
+	// [GET /account/get-all]
+	api.StableGetAccountGetAllHandler = stable.GetAccountGetAllHandlerFunc(func(params stable.GetAccountGetAllParams, principal *models.Principal) middleware.Responder {
+		return handlers.AccountGetAll(params)
+	})
+
 	// [POST /conversation]
 	api.StablePostConversationHandler = stable.PostConversationHandlerFunc(func(params stable.PostConversationParams, principal *models.Principal) middleware.Responder {
 		return handlers.ConversationPost(user, params)

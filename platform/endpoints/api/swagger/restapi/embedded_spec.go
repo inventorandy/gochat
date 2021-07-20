@@ -150,6 +150,39 @@ func init() {
         }
       }
     },
+    "/account/get-all": {
+      "get": {
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "description": "Endpoint to get a list of all registered users.",
+        "tags": [
+          "stable"
+        ],
+        "responses": {
+          "200": {
+            "description": "User list was returned.",
+            "schema": {
+              "$ref": "#/definitions/user_list"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/responses/Unauthorized"
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "schema": {
+              "$ref": "#/responses/Unknown"
+            }
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "description": "Logs a user in and returns a JWT for secured API calls.",
@@ -615,6 +648,12 @@ func init() {
         "salt": {
           "type": "string"
         }
+      }
+    },
+    "user_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/user"
       }
     }
   },
@@ -812,6 +851,45 @@ func init() {
         }
       }
     },
+    "/account/get-all": {
+      "get": {
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "description": "Endpoint to get a list of all registered users.",
+        "tags": [
+          "stable"
+        ],
+        "responses": {
+          "200": {
+            "description": "User list was returned.",
+            "schema": {
+              "$ref": "#/definitions/user_list"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "description": "Unauthorized",
+              "schema": {
+                "$ref": "#/definitions/error"
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "schema": {
+              "description": "Unknown",
+              "schema": {
+                "$ref": "#/definitions/error"
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "description": "Logs a user in and returns a JWT for secured API calls.",
@@ -1343,6 +1421,12 @@ func init() {
         "salt": {
           "type": "string"
         }
+      }
+    },
+    "user_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/user"
       }
     }
   },

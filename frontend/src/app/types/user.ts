@@ -25,6 +25,7 @@ export enum UserActions {
   GET_LOGGED_IN_USER = 2,
   CLEAR_LOGGED_IN_USER = 3,
   LOGIN = 4,
+  GET_ALL_USERS = 5
 }
 
 // Login User Action Type
@@ -39,5 +40,11 @@ interface GetLoggedInUser {
   user: User,
 }
 
+// Get All Users Action Type
+interface GetAllUsers {
+  type: typeof UserActions.GET_ALL_USERS,
+  users: User[]
+}
+
 // Export the Action Type
-export type UserActionTypes = SetLoggedInUser | GetLoggedInUser;
+export type UserActionTypes = SetLoggedInUser | GetLoggedInUser | GetAllUsers;

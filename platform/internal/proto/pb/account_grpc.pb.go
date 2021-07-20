@@ -7,6 +7,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
@@ -25,6 +26,7 @@ type AccountServiceClient interface {
 	GetUserByEmail(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*User, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	AuthenticateJWT(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*User, error)
+	GetAllUsers(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*UserList, error)
 }
 
 type accountServiceClient struct {
@@ -89,6 +91,15 @@ func (c *accountServiceClient) AuthenticateJWT(ctx context.Context, in *wrappers
 	return out, nil
 }
 
+func (c *accountServiceClient) GetAllUsers(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*UserList, error) {
+	out := new(UserList)
+	err := c.cc.Invoke(ctx, "/pb.AccountService/GetAllUsers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type AccountServiceServer interface {
 	GetUserByEmail(context.Context, *wrapperspb.StringValue) (*User, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	AuthenticateJWT(context.Context, *wrapperspb.StringValue) (*User, error)
+	GetAllUsers(context.Context, *emptypb.Empty) (*UserList, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -123,6 +135,9 @@ func (UnimplementedAccountServiceServer) Login(context.Context, *LoginRequest) (
 }
 func (UnimplementedAccountServiceServer) AuthenticateJWT(context.Context, *wrapperspb.StringValue) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AuthenticateJWT not implemented")
+}
+func (UnimplementedAccountServiceServer) GetAllUsers(context.Context, *emptypb.Empty) (*UserList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllUsers not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -245,6 +260,24 @@ func _AccountService_AuthenticateJWT_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetAllUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetAllUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.AccountService/GetAllUsers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetAllUsers(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -275,6 +308,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AuthenticateJWT",
 			Handler:    _AccountService_AuthenticateJWT_Handler,
+		},
+		{
+			MethodName: "GetAllUsers",
+			Handler:    _AccountService_GetAllUsers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

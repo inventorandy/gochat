@@ -3,6 +3,7 @@ import { User, UserActions, UserActionTypes } from '../types/user';
 // UserState
 interface UserState {
   loggedInUser?: User,
+  users?: User[],
   error?: string | null
 }
 
@@ -17,12 +18,18 @@ const userReducer = (state: UserState = initialState, action: UserActionTypes): 
   switch(action.type) {
     case UserActions.SET_LOGGED_IN_USER:
       return {
+        ...state,
         loggedInUser: action.user,
       }
     case UserActions.GET_LOGGED_IN_USER:
-      console.log(action.user);
       return {
+        ...state,
         loggedInUser: action.user,
+      }
+    case UserActions.GET_ALL_USERS:
+      return {
+        ...state,
+        users: action.users,
       }
     default:
       return state;

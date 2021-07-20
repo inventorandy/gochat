@@ -48,6 +48,9 @@ func NewGochatAPI(spec *loads.Document) *GochatAPI {
 		StableGetAccountHandler: stable.GetAccountHandlerFunc(func(params stable.GetAccountParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation stable.GetAccount has not yet been implemented")
 		}),
+		StableGetAccountGetAllHandler: stable.GetAccountGetAllHandlerFunc(func(params stable.GetAccountGetAllParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation stable.GetAccountGetAll has not yet been implemented")
+		}),
 		StableGetConversationHandler: stable.GetConversationHandlerFunc(func(params stable.GetConversationParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation stable.GetConversation has not yet been implemented")
 		}),
@@ -127,6 +130,8 @@ type GochatAPI struct {
 
 	// StableGetAccountHandler sets the operation handler for the get account operation
 	StableGetAccountHandler stable.GetAccountHandler
+	// StableGetAccountGetAllHandler sets the operation handler for the get account get all operation
+	StableGetAccountGetAllHandler stable.GetAccountGetAllHandler
 	// StableGetConversationHandler sets the operation handler for the get conversation operation
 	StableGetConversationHandler stable.GetConversationHandler
 	// StableGetConversationIDHandler sets the operation handler for the get conversation ID operation
@@ -228,6 +233,9 @@ func (o *GochatAPI) Validate() error {
 
 	if o.StableGetAccountHandler == nil {
 		unregistered = append(unregistered, "stable.GetAccountHandler")
+	}
+	if o.StableGetAccountGetAllHandler == nil {
+		unregistered = append(unregistered, "stable.GetAccountGetAllHandler")
 	}
 	if o.StableGetConversationHandler == nil {
 		unregistered = append(unregistered, "stable.GetConversationHandler")
@@ -359,6 +367,10 @@ func (o *GochatAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/account"] = stable.NewGetAccount(o.context, o.StableGetAccountHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/account/get-all"] = stable.NewGetAccountGetAll(o.context, o.StableGetAccountGetAllHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

@@ -17,6 +17,7 @@ type Controller interface {
 	AccountPost(in stable.PostAccountParams) middleware.Responder
 	AccountPut(user *pb.User, in stable.PutAccountParams) middleware.Responder
 	AccountGet(user *pb.User, in stable.GetAccountParams) middleware.Responder
+	AccountGetAll(in stable.GetAccountParams) middleware.Responder
 
 	// Conversation
 	ConversationPost(user *pb.User, in stable.PostConversationParams) middleware.Responder

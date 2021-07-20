@@ -90,6 +90,26 @@ paths:
           description: Unknown Error
           schema:
             $ref: "#/responses/Unknown"
+  /account/get-all:
+    get:
+      description: Endpoint to get a list of all registered users.
+      tags:
+        - stable
+      security:
+        - jwt: []
+      responses:
+        200:
+          description: User list was returned.
+          schema:
+            $ref: "#/definitions/user_list"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/responses/Unauthorized"
+        500:
+          description: Unknown Error
+          schema:
+            $ref: "#/responses/Unknown"
   /auth/login:
     post:
       description: Logs a user in and returns a JWT for secured API calls.
@@ -339,6 +359,10 @@ definitions:
       last_name:
         type: string
         example: Smith
+  user_list:
+    type: array
+    items:
+      $ref: "#/definitions/user"
   login_request:
     type: object
     properties:
