@@ -21,10 +21,11 @@ jobs:
         id: build-images
         env:
           IMAGE_TAG: ${{ github.sha }}
+          PROJECT_NAME: ${{ secrets.GCP_PROJECT_NAME }}
         run: |
           # Build the Docker Images
-          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-accounts:$IMAGE_TAG us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-accounts:${GITHUB_REF##*/} -f platform/services/account/Dockerfile
-          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-conversationss:$IMAGE_TAG us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-conversations:${GITHUB_REF##*/} -f platform/services/conversation/Dockerfile
-          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-api:$IMAGE_TAG us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-api:${GITHUB_REF##*/} -f platform/endpoints/api/Dockerfile
-          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-ws:$IMAGE_TAG us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-ws:${GITHUB_REF##*/} -f platform/endpoints/ws/Dockerfile
-          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-frontend:$IMAGE_TAG us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}/gochat-service-frontend:${GITHUB_REF##*/} -f frontend/Dockerfile
+          docker build -t us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-accounts:$IMAGE_TAG us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-accounts:${GITHUB_REF##*/} -f platform/services/account/Dockerfile
+          docker build -t us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-conversationss:$IMAGE_TAG us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-conversations:${GITHUB_REF##*/} -f platform/services/conversation/Dockerfile
+          docker build -t us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-api:$IMAGE_TAG us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-api:${GITHUB_REF##*/} -f platform/endpoints/api/Dockerfile
+          docker build -t us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-ws:$IMAGE_TAG us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-ws:${GITHUB_REF##*/} -f platform/endpoints/ws/Dockerfile
+          docker build -t us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-frontend:$IMAGE_TAG us-central1-docker.pkg.dev/$PROJECT_NAME/gochat-service-frontend:${GITHUB_REF##*/} -f frontend/Dockerfile
