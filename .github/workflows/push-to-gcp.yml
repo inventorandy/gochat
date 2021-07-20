@@ -15,7 +15,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: us-central1-docker.pkg.dev
-          username: ${{ secrets.GAR_JSON_USER }}
+          username: _json_key
           password: ${{ secrets.GAR_JSON_KEY }}
       - name: Push to GCP Artifacts Registry
         id: build-images
