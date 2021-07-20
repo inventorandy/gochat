@@ -23,8 +23,8 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # Build the Docker Images
-          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-accounts:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-accounts:${GITHUB_REF##*/} -f platform/services/account/Dockerfile
-          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-conversationss:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-conversations:${GITHUB_REF##*/} -f platform/services/conversation/Dockerfile
-          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-api:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-api:${GITHUB_REF##*/} -f platform/endpoints/api/Dockerfile
-          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-ws:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-ws:${GITHUB_REF##*/} -f platform/endpoints/ws/Dockerfile
-          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-frontend:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-frontend:${GITHUB_REF##*/} -f frontend/Dockerfile
+          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-accounts:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-accounts:${GITHUB_REF##*/} -f platform/services/account/Dockerfile .
+          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-conversationss:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-conversations:${GITHUB_REF##*/} -f platform/services/conversation/Dockerfile .
+          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-api:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-api:${GITHUB_REF##*/} -f platform/endpoints/api/Dockerfile .
+          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-ws:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-ws:${GITHUB_REF##*/} -f platform/endpoints/ws/Dockerfile .
+          docker build -t us-central1-docker.pkg.dev/gochat-demo/gochat-service-frontend:$IMAGE_TAG us-central1-docker.pkg.dev/gochat-demo/gochat-service-frontend:${GITHUB_REF##*/} -f frontend/Dockerfile .
