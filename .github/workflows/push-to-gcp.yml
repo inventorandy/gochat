@@ -21,7 +21,7 @@ jobs:
         id: build-images
         env:
           IMAGE_TAG: ${{ github.sha }}
-          REPOSITORY_BASE: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_NAME }}
+          REPOSITORY_BASE: us-central1-docker.pkg.dev/gochat-demo
         run: |
           # Build the Docker Images
           docker build -t $REPOSITORY_BASE/gochat-service-accounts:$IMAGE_TAG -t $REPOSITORY_BASE/gochat-service-accounts:${GITHUB_REF##*/} -f platform/services/account/Dockerfile .
