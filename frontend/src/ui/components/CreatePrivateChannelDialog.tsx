@@ -42,7 +42,6 @@ const CreatePrivateChannelDialog: React.FC = () => {
 
   // Handle Toggling a User
   const toggleUser = (e: React.ChangeEvent<HTMLInputElement>, user: User) => {
-    //console.log(user);
     let userList = users;
     let didRemove = false;
     if (userList !== undefined) {
