@@ -23,7 +23,7 @@ The frontend is a web-based application built in Typescript and React. It allows
 
 This application needs a few environment variables in order to run properly. The easiest way is to create a copy of the `.env.dist` file called `.env`. Please be sure to change the passwords and authentication keys.
 
-**Note** The `REACT_APP_API_URL` and `REACT_APP_WS_URL` should point to your network IP address (if you're running on a local network) or the domain name / server IP (if you deploy to the web).
+**Note** The `REACT_APP_API_URL` and `REACT_APP_WS_URL` specified in `docker-compose.yml` should point to your network IP address (if you're running on a local network) or the domain name / server IP (if you deploy to the web).
 
 ### Running in Docker
 

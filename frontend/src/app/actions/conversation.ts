@@ -113,25 +113,20 @@ export const ConnectConversationWebsocket = () => (dispatch: Dispatch) => {
 
   // Create the Event Listeners
   conversationSocket.onopen = event => {
-    console.log("Conversation websocket opened, getting fresh data...");
   }
   conversationSocket.onmessage = event => {
     // Get the Event
     let wsEvent: ConverationWebsocketMessage = JSON.parse(event.data);
     switch (wsEvent.type) {
       case "MESSAGE":
-        console.log("message received...");
         ProcessNewMessage(wsEvent.data as Message, dispatch);
         break;
       default:
-        console.log("unknown packet type...");
     }
   }
   conversationSocket.onclose = event => {
-    console.log("Conversation websocket closed...");
   }
   conversationSocket.onerror = error => {
-    console.log("Socket Error: ", error);
   }
 }
 

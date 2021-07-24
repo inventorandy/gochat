@@ -14,9 +14,12 @@ import (
 
 // ConversationPost [POST /conversation]
 func (c *HandlerController) ConversationPost(user *pb.User, in stable.PostConversationParams) middleware.Responder {
+	// Clear the Participants
+	inConversation := in.Conversation
+	inConversation.Participants = nil
 	// Convert the Conversation Object to Proto
 	conversationProto := &pb.Conversation{}
-	if err := pbjson.ToProto(in.Conversation, conversationProto); err != nil {
+	if err := pbjson.ToProto(inConversation, conversationProto); err != nil {
 		log.Println(err.Error())
 		return stable.NewPostConversationBadRequest().WithPayload(&models.Error{
 			Message: "Unable to convert conversation information.",
