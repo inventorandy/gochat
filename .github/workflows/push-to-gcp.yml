@@ -34,5 +34,5 @@ jobs:
           docker push $REPOSITORY_BASE/gochat-service-api --all-tags
           docker build -t $REPOSITORY_BASE/gochat-service-ws:$IMAGE_TAG -t $REPOSITORY_BASE/gochat-service-ws:${GITHUB_REF##*/} -f platform/endpoints/ws/Dockerfile .
           docker push $REPOSITORY_BASE/gochat-service-ws --all-tags
-          docker build -t $REPOSITORY_BASE/gochat-service-frontend:$IMAGE_TAG -t $REPOSITORY_BASE/gochat-service-frontend:${GITHUB_REF##*/} --build-arg REACT_APP_API_URL $REACT_APP_API_URL REACT_APP_WS_URL $REACT_APP_WS_URL -f frontend/Dockerfile .
+          docker build -t $REPOSITORY_BASE/gochat-service-frontend:$IMAGE_TAG -t $REPOSITORY_BASE/gochat-service-frontend:${GITHUB_REF##*/} --build-arg REACT_APP_API_URL $REACT_APP_API_URL --build-arg REACT_APP_WS_URL $REACT_APP_WS_URL -f frontend/Dockerfile .
           docker push $REPOSITORY_BASE/gochat-service-frontend --all-tags
