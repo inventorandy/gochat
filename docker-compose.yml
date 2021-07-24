@@ -90,8 +90,8 @@ services:
       dockerfile: ./frontend/Dockerfile
       context: .
       args:
-        REACT_APP_API_URL: http://192.168.1.145:8081/api/v1
-        REACT_APP_WS_URL: ws://192.168.1.145:8082
+        REACT_APP_API_URL: http://localhost:8081/api/v1
+        REACT_APP_WS_URL: ws://localhost:8082
     env_file: .env
     networks:
       - gochat-net
