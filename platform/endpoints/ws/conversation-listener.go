@@ -65,6 +65,23 @@ func (s *WebSocketClientHandler) listenForConversationEvents() {
 				EventType: msgInfo.UpdateType.String(),
 				Data:      msgJSON,
 			}
+		case reflect.TypeOf(&pb.ChatStreamUpdate_ConversationInfo{}):
+			// Get the Conversation Info
+			conversationInfo := event.GetConversationInfo()
+
+			// Convert the Message to JSON
+			conversationJSON := &models.Conversation{}
+			if err := pbjson.FromProto(conversationInfo.Conversation, conversationJSON); err != nil {
+				log.Println(err.Error())
+				continue
+			}
+
+			// Broadcast the Event
+			s.broadcast <- Event{
+				Type:      "CONVERSATION",
+				EventType: conversationInfo.UpdateType.String(),
+				Data:      conversationJSON,
+			}
 		default:
 			log.Println("ignoring event...")
 			continue

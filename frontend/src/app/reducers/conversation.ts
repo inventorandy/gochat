@@ -35,6 +35,22 @@ const conversationReducer = (state: ConversationState = initialState, action: Co
         ...state,
         currentConversation: action.conversation,
       }
+    case ConversationActions.CREATE_CONVERSATION:
+      if (action.conversation.is_public === true) {
+        let conversations = state.publicConversations;
+        conversations?.push(action.conversation);
+        return {
+          ...state,
+          publicConversations: conversations
+        }
+      } else {
+        let conversations = state.privateConversations;
+        conversations?.push(action.conversation);
+        return {
+          ...state,
+          privateConversations: conversations
+        }
+      }
     default:
       return state;
   }

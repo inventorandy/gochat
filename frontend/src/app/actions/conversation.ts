@@ -117,9 +117,12 @@ export const ConnectConversationWebsocket = () => (dispatch: Dispatch) => {
   conversationSocket.onmessage = event => {
     // Get the Event
     let wsEvent: ConverationWebsocketMessage = JSON.parse(event.data);
-    switch (wsEvent.type) {
-      case "MESSAGE":
+    switch (wsEvent.event_type) {
+      case "MESSAGE_CREATED":
         ProcessNewMessage(wsEvent.data as Message, dispatch);
+        break;
+      case "CONVERSATION_CREATED":
+        ProcessNewConversation(wsEvent.data as Conversation, dispatch);
         break;
       default:
     }
@@ -157,6 +160,18 @@ const ProcessNewMessage = (message: Message, dispatch: Dispatch) => {
 	    conversation: conversation,
     })
   }
+}
+
+// Process Handling of new conversation on websocket
+const ProcessNewConversation = (conversation: Conversation, dispatch: Dispatch) => {
+  // Define the API States
+  const conversationState = store.getState().conversationState;
+
+   // Do the Dispatch
+   dispatch({
+    type: ConversationActions.CREATE_CONVERSATION,
+    conversation: conversation,
+  })
 }
 
 export const CloseConversationWebsocket = () => {

@@ -7,7 +7,6 @@ import (
 	"gochat/platform/internal/proto/pb"
 	"log"
 	"os"
-	"reflect"
 
 	"github.com/golang/protobuf/ptypes/wrappers"
 	"google.golang.org/grpc"
@@ -15,13 +14,6 @@ import (
 
 // AuthConversation Middleware
 func AuthConversation(event Event, jwt string) bool {
-	// Convert the Event to Proto
-	update := &pb.Message{}
-	if err := pbjson.ToProto(event.Data, update); err != nil {
-		log.Println(err.Error())
-		return false
-	}
-
 	// Get the Conversations Service Host
 	conversationHost, exists := os.LookupEnv("CONVERSATION_SERVICE_HOST")
 	if !exists {
@@ -79,12 +71,39 @@ func AuthConversation(event Event, jwt string) bool {
 		return false
 	}
 
-	// Determine the Event Type
-	switch reflect.TypeOf(update) {
-	case reflect.TypeOf(&pb.Message{}):
+	// Determine the Message Type
+	switch event.Type {
+	case "MESSAGE":
+		// Convert to Proto
+		update := &pb.Message{}
+		if err := pbjson.ToProto(event.Data, update); err != nil {
+			log.Println(err.Error())
+			return false
+		}
+
 		// Check whether the user has access to the conversation
 		userHasAccess, err := conversationClient.UserHasAccessToConversation(context.Background(), &pb.UserAccessQuery{
 			ConversationId: update.ConversationId,
+			UserId:         user.Id,
+		})
+		if err != nil {
+			log.Println(err.Error())
+			return false
+		}
+
+		// Return the Value
+		return userHasAccess.Value
+	case "CONVERSATION":
+		// Convert to Proto
+		update := &pb.Conversation{}
+		if err := pbjson.ToProto(event.Data, update); err != nil {
+			log.Println(err.Error())
+			return false
+		}
+
+		// Check whether the user has access to the conversation
+		userHasAccess, err := conversationClient.UserHasAccessToConversation(context.Background(), &pb.UserAccessQuery{
+			ConversationId: update.Id,
 			UserId:         user.Id,
 		})
 		if err != nil {
