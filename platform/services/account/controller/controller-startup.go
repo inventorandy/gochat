@@ -3,8 +3,8 @@ package controller
 import (
 	"gochat/platform/services/account/repository"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gofrs/uuid"
+	"github.com/golang-jwt/jwt"
 )
 
 // Claims struct for JWT Claims

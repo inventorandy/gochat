@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/go-openapi/strfmt"
+	"github.com/golang-jwt/jwt"
 )
 
 // Login checks a user's credentials and returns a JWT on success

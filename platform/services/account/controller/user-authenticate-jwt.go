@@ -6,7 +6,7 @@ import (
 	"gochat/platform/internal/proto/pb"
 	"os"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt"
 	"github.com/golang/protobuf/ptypes/wrappers"
 )
 
