@@ -8,7 +8,7 @@ import (
 // ConversationHandler deals with websocket connections to [/conversation]
 func (s *WebSocketClientHandler) ConversationHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the User
-	authToken, err := r.Cookie("authToken")
+	authToken, err := r.Cookie("token")
 	if err != nil {
 		log.Println(err.Error())
 		w.WriteHeader(http.StatusUnauthorized)

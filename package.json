@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/jwt-decode": "^3.1.0",
+    "axios": "^0.25.0",
+    "jwt-decode": "^3.1.2"
+  }
+}

@@ -36,6 +36,10 @@ func (c *AccountController) GetUserByEmail(in *wrappers.StringValue) (*pb.User, 
 		return nil, fmt.Errorf("controller error: %s", err.Error())
 	}
 
+	// Remove the Password and Salt from the Return
+	userOut.Password = ""
+	userOut.Salt = ""
+
 	// Return the User
 	return userOut, nil
 }

@@ -83,20 +83,20 @@ services:
     depends_on:
       - postgres
     command: ./conversation
-  frontend:
-    container_name: gochat_frontend
-    restart: always
-    build:
-      dockerfile: ./frontend/Dockerfile
-      context: .
-      args:
-        REACT_APP_API_URL: http://localhost:8081/api/v1
-        REACT_APP_WS_URL: ws://localhost:8082
-    env_file: .env
-    networks:
-      - gochat-net
-    ports:
-      - ${FRONTEND_PORT}:3000
+  # frontend:
+  #   container_name: gochat_frontend
+  #   restart: always
+  #   build:
+  #     dockerfile: ./frontend/Dockerfile
+  #     context: .
+  #     args:
+  #       REACT_APP_API_URL: http://localhost:8081/api/v1
+  #       REACT_APP_WS_URL: ws://localhost:8082
+  #   env_file: .env
+  #   networks:
+  #     - gochat-net
+  #   ports:
+  #     - ${FRONTEND_PORT}:3000
 
 volumes:
   pgdata:

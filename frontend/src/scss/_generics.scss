@@ -1,0 +1,246 @@
+/**
+ * Generic Style Rules - build style with class(es)!
+ */
+@import '_variables';
+
+// Typography
+.bold {
+  font-weight: 600;
+}
+
+// Paragraph
+.left-align {
+  text-align: left;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.center-align {
+  text-align: center;
+}
+
+.flex-right {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.spaced-line {
+  line-height: 1.5rem;
+}
+
+// Sizing
+.box-sizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.full-width {
+  width: 100%;
+}
+
+// Colors
+.hidden {
+  display: none !important;
+}
+
+.bg-primary-overlay {
+  background: $primary-overlay;
+}
+
+// Borders
+.bdr-rounded {
+  border-radius: 0.5rem;
+}
+
+.btl-rounded {
+  border-top-left-radius: 0.5rem;
+}
+
+.btr-rounded {
+  border-top-right-radius: 0.5rem;
+}
+
+.bbl-rounded {
+  border-bottom-left-radius: 0.5rem;
+}
+
+.bbr-rounded {
+  border-bottom-right-radius: 0.5rem;
+}
+
+.bdr-none {
+  border: none;
+}
+
+.bdr-solid {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.bdr-l-solid {
+  border-left-width: 1px;
+  border-left-style: solid;
+}
+
+.bdr-r-solid {
+  border-right-width: 1px;
+  border-right-style: solid;
+}
+
+.bdr-t-solid {
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
+.bdr-b-solid {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.bdr-l-none {
+  border-left: none;
+}
+
+.bdr-r-none {
+  border-right: none;
+}
+
+.bdr-t-none {
+  border-top: none;
+}
+
+.bdr-b-none {
+  border-bottom: none
+}
+
+// Form Inputs
+button {
+  cursor: pointer;
+}
+
+p.form-input {
+  margin: 0;
+
+  > label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  > input[type=text],
+  > input[type=email],
+  > input[type=number],
+  > input[type=password],
+  > textarea {
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+}
+
+.text-input {
+  font-family: $body-font-family;
+  font-weight: $body-font-weight;
+  font-size: 1rem;
+  outline: none;
+  padding: 0.5rem;
+
+  &.lg {
+    padding: 1rem 0.5rem;
+  }
+}
+
+.btn {
+  font-family: $title-font-family;
+  font-size: 1rem;
+  color: $primary-overlay;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.25);
+  background: $primary-grad-top-bottom;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+
+  &:hover {
+    background: $primary-grad-bottom-top;
+  }
+}
+
+.txt-btn, a {
+  background: none;
+  border: none;
+  color: $primary-color;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Modal Dialog
+div.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: block;
+  transition: 90ms ease-in-out;
+}
+
+div.modal {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -25%);
+  width: 100%;
+  max-width: 480px;
+
+  > div.header {
+    background: $primary-grad-top-bottom;
+    color: $primary-overlay;
+    border-color: darken($primary-color, 5%);
+    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: auto min-content;
+
+    > h4 {
+      margin: 0;
+      padding: 0;
+      align-self: center;
+    }
+
+    > button {
+      background: none;
+      border: none;
+      color: $primary-overlay;
+      font-family: $body-font-family;
+      font-weight: 900;
+      font-size: 1rem;
+      width: fit-content;
+      border-radius: 0.25rem;
+      border: none;
+      align-self: center;
+
+      &:hover {
+        background: lighten($primary-color, 5%);
+      }
+    }
+  }
+
+  > div.content {
+    padding: 0.5rem;
+    background: $primary-overlay;
+    border-color: darken($primary-color, 5%);
+
+    div.button-options {
+      text-align: right;
+      margin: 0.5rem 0 0 0;
+
+      > button {
+        margin-left: 0.25rem;
+      }
+    }
+  }
+}

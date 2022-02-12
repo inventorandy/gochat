@@ -1,30 +1,35 @@
 import React from 'react';
+import { Suspense } from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route
 } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import { store, persistor } from './app/store';
 import './scss/gochat.scss';
-import PrivateRoute from './ui/components/PrivateRoute';
-import ChatInterface from './ui/pages/ChatInterface';
-import LoginPage from './ui/pages/Login';
-import RegisterPage from './ui/pages/Register';
+import LoginPage from './ui/pages/Login/LoginPage';
+import MainPage from './ui/pages/Main/MainPage';
+import RequireAuth from './ui/components/Routing/RequireAuth';
 
 function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route path="/auth/login">
-          <LoginPage />
-        </Route>
-        <Route path="/auth/create-account">
-          <RegisterPage />
-        </Route>
-        <PrivateRoute path="/" component={ChatInterface}>
-          <LoginPage />
-        </PrivateRoute>
-      </Switch>
-    </Router>
+  // Render
+  return(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <Routes>
+            <Route path="/welcome" element={<LoginPage />} />
+            <Route path="/" element={
+              <RequireAuth>
+                <MainPage />
+              </RequireAuth>
+            } />
+          </Routes>
+        </Router>
+      </PersistGate>
+    </Provider>
   );
 }
 

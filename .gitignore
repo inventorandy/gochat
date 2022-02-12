@@ -3,3 +3,6 @@
 
 # Data Directories
 pgdata/
+
+# Old Frontend
+old-frontend/

@@ -49,6 +49,10 @@ func (c *AccountController) Login(in *pb.LoginRequest) (*pb.LoginResponse, error
 		return nil, fmt.Errorf("controller error: %s", err.Error())
 	}
 
+	// Remove the Password and Salt from the Return
+	userOut.Password = ""
+	userOut.Salt = ""
+
 	// Set the JWT Expiration Time
 	expirationTime := time.Now().Add(2 * time.Hour)
 

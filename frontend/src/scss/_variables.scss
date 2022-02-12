@@ -1,14 +1,15 @@
-/* Font Styles */
-$body-font-family: Arial, Helvetica, sans-serif;
+/**
+ * CSS Variables
+ */
 
-/* Colours */
-$primary-color: #8a113d;
+$title-font-family: 'Roboto Condensed', sans-serif;
+$body-font-family: 'Helvetica Neue', sans-serif;
 
-/* General Styles */
-a {
-  color: $primary-color;
+$body-font-weight: 400;
 
-  &:hover {
-    color: darken($primary-color, 15%);
-  }
-}
+$primary-color: #20b353; //#764abc;
+$primary-overlay: white;
+$primary-grad-top-bottom: linear-gradient(0deg, darken($primary-color, 5%) 25%, $primary-color 75%);
+$primary-grad-bottom-top: linear-gradient(0deg, $primary-color 25%, darken($primary-color, 5%) 75%);
+
+$nav-width: 240px;

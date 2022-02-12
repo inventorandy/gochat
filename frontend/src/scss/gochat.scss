@@ -1,346 +1,164 @@
-@import '_variables';
-@import '_display';
-@import '_forms';
-@import '_modal';
-@import '_notifications';
-
-html, body, #root {
-  min-height: 100%;
-}
+@import '_generics';
 
 html, body {
-  font-family: "Arial", "Helvetica", sans-serif;
+  font-family: $body-font-family;
+  font-size: 16px;
+  margin: 0;
 }
 
-/**
- * Login Page
- */
-form.login-form {
-  display: block;
-  width: 350px;
-  margin: 50px auto;
+h1, h2, h3, h4 {
+  font-family: $title-font-family;
+  font-weight: 400;
+}
 
-  p {
-    label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: bold;
-      padding: 0.5rem 0;
-    }
+h1 {
+  text-align: center;
+}
+
+.form-error {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 0.4rem;
+  border: none;
+  padding: 0.8rem 0.4rem;
+  background: #b52132;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+// Login Page
+form.login {
+  width: 100%;
+  max-width: 480px;
+  margin: 2rem auto;
+
+  > div.login-gopher{
+    background: url(images/green-gopher_256x256.png) center center no-repeat;
+    background-size: contain;
+    width: 128px;
+    height: 128px;
+    margin: 0 auto;
   }
 }
 
-/**
- * Registration Page
- */
-div.registration-page {
-  > form {
-    display: block;
-    margin: 0px auto;
-    max-width: 760px;
+#create-account {
+  max-width: 640px;
 
-    > div.register-form-grid-container {
+  form {
+    $col-spacing: 0.5rem;
+
+    > div.inputs {
       display: grid;
-      grid-template-columns: auto auto;
-      grid-template-rows: auto auto;
-
-      > p {
-        padding: 0.5rem 0.25rem;
-
-        label {
-          display: block;
-          font-size: 0.8rem;
-          font-weight: bold;
-          margin-bottom: 0.5rem;
-        }
-      }
-
-      > p:nth-of-type(2n) {
-        grid-column: 2;
-      }
-
-      > p:nth-of-type(2n + 1) {
-        grid-column: 1;
-      }
-
-      > p:nth-of-type(1),
-      > p:nth-of-type(2) {
-        grid-row: 1;
-      }
-
-      > p:nth-of-type(3),
-      > p:nth-of-type(4) {
-        grid-row: 2;
-      }
-
-      > p:nth-of-type(5),
-      > p:nth-of-type(6) {
-        grid-row: 3;
-      }
-
-      > p:nth-of-type(7) {
-        grid-column-start: 1;
-        grid-column-end: 3;
-      }
+      grid-template-columns: calc(50% - ($col-spacing / 2)) calc(50% - ($col-spacing / 2));
+      column-gap: $col-spacing;
+      row-gap: $col-spacing;
     }
   }
 }
 
-/**
- * Chat Interface
- */
-div.chat-interface-page {
+// Main Application Layout
+div.main-application {
   display: flex;
+  height: 100vh;
 
-  div.sidebar {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 0.5rem;
-    background-color: $primary-color;
-    color: white;
-    max-width: 280px;
-    width: 20%;
-    height: 100vh;
+  > div.app-drawer {
+    max-width: $nav-width;
+    width: 100%;
+    height: 100%;
     overflow: auto;
+    padding: 0.5rem;
+    background: $primary-color;
+    color: $primary-overlay;
 
-    > button.logout {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      padding: 0.5rem 0 0.5rem 0.5rem;
-      display: block;
-      background: $primary-color;
-      border-radius: 0.25rem;
-      border: none;
-      color: white;
-      font-size: 0.9rem;
-      font-weight: normal;
-      text-align: center;
-      text-shadow: none;
-      text-decoration: none;
-      cursor: pointer;
-
-      &:hover {
-        background: darken($primary-color, 5%);
-      }
-
-      &.selected {
-        background: darken($primary-color, 7.5%);
-      }
-    }
-
-    > h2:first-of-type {
-      margin-top: 0.5rem;
-      text-align: center;
+    > h2 {
+      margin: 0.5rem 0;
     }
 
     > h3 {
-      margin: 1rem 0 0.5rem 0;
-      display: flex;
-      flex-wrap: nowrap;
-      flex-flow: row nowrap;
-      justify-content: space-between;
-
-      > button {
-        font-size: 0.75rem;
-        background: none;
-        border-radius: 0.25rem;
-        border: none;
-        padding: 0.3rem;
-        cursor: pointer;
-        width: auto;
-
-        &:hover {
-          background: darken($primary-color, 5%);
-        }
-      }
+      margin: 0 0 0.25rem 0;
     }
 
-    > ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
+    > button {
+      background: none;
+      padding: 0.5rem 0.25rem;
+      margin-bottom: 0.25rem;
+      color: $primary-overlay;
 
-      > li {
-        margin: 0;
-        padding: 0;
+      &:hover {
+        background: darken($primary-color, 10%);
+      }
 
-        > button {
-          &.channel {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            padding: 0.5rem 0 0.5rem 0.5rem;
-            display: block;
-            background: $primary-color;
-            border-radius: 0.25rem;
-            border: none;
-            color: white;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-align: left;
-            text-shadow: none;
-            text-decoration: none;
-
-            &:hover {
-              background: darken($primary-color, 5%);
-            }
-
-            &.selected {
-              background: darken($primary-color, 7.5%);
-            }
-
-            > svg {
-              margin-right: 1rem;
-            }
-          }
-        }
+      &.selected {
+        background: darken($primary-color, 5%);
       }
     }
   }
 
-  div.main-chat-container {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 0.5rem;
-    width: 80%;
+  > div.main-content {
+    width: calc(100% - $nav-width);
     height: 100vh;
-    overflow: auto;
-    flex-grow: 1;
+    display: grid;
+    grid-template-rows: 5rem auto 8rem;
 
-    > div.inner {
-      display: grid;
-      grid-template-columns: 100%;
-      grid-template-rows: min-content auto 90px;
-      height: 100%;
-
-      > h1 {
-        display: block;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-        margin: 0;
-        padding: 1rem 0;
-        grid-column: 1;
-        grid-row: 1;
-      }
-
-      > div.message-list {
-        grid-column: 1;
-        grid-row: 2;
-        overflow: auto;
-
-        > div.chat-message {
-          padding: 0.5rem 0;
-
-          > h4 {
-            font-size: 1rem;
-            margin: 0.25rem 0;
-            width: 100%;
-            display: flex;
-            flex-wrap: nowrap;
-            flex-flow: row nowrap;
-            justify-content: space-between;
-
-            > span.message-info {
-              font-size: 0.75rem;
-              color: #bbb;
-            }
-          }
-
-          > div.content {
-            padding: 0.5rem 0;
-          }
-        }
-      }
-
-      > form.message-editor {
-        background: rgba(0, 0, 0, 0.15);
-        display: block;
-        grid-column: 1;
-        grid-row: 3;
-
-        > div.inner {
-          display: grid;
-          grid-template-columns: auto 100px;
-          height: 100%;
-
-          > textarea.message-editor-input {
-            justify-self: stretch;
-            align-self: stretch;
-            resize: none;
-            outline: none;
-            grid-row: 1;
-            grid-column: 1;
-          }
-
-          > button.send-message-button {
-            justify-self: stretch;
-            align-self: stretch;
-            grid-row: 1;
-            grid-column: 2;
-          }
-        }
-      }
+    > div.conversation-header {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     }
-  }
 
-  > div.create-public-channel-dialog, div.create-private-channel-dialog {
-    > div.content {
-      p {
-        margin: 0 0 0.5rem 0;
+    > div.conversation-stream {
+      overflow: auto;
 
-        label {
-          display: block;
+      > div.message {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        row-gap: 0.25rem;
+        padding: 0.5rem;
+
+        > div.author {
+          grid-column: 1;
+        }
+
+        > div.date {
+          grid-column: 2;
           font-size: 0.75rem;
           font-weight: bold;
-          padding: 0.5rem 0;
+          color: #999;
+        }
+
+        > div.content {
+          grid-column-start: 1;
+          grid-column-end: 3;
         }
       }
     }
-  }
 
-  > div.create-private-channel-dialog {
-    div.content {
-      ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
+    form.chat-editor {
+      display: grid;
+      grid-template-columns: auto 8rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
 
-        > li {
-          display: inline;
+      > textarea {
+        font-family: $body-font-family;
+        font-weight: $body-font-weight;
+        font-size: 1rem;
+        padding: 0.5rem;
+        resize: none;
+        outline: none;
+      }
 
-          > label {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            margin: 0.2rem;
-            padding: 0.4rem;
-            background: #eee;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            display: inline-block;
-            color: black;
-            font-weight: bold;
+      > button {
+        background: $primary-grad-top-bottom;
+        color: $primary-overlay;
+        font-family: $title-font-family;
+        font-size: 1.5rem;
+        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.25);
+        text-transform: uppercase;
+        margin: 0.25rem;
 
-            &:hover {
-              background: darken(#eee, 10%);
-            }
-          }
-
-          > input[type=checkbox]:checked + label {
-            background: $primary-color;
-            color: white;
-
-            &:hover {
-              background: darken($primary-color, 10%);
-            }
-          }
-
-          input[type=checkbox] {
-            display: none;
-          }
+        &:hover {
+          background: $primary-grad-bottom-top;
         }
       }
     }
