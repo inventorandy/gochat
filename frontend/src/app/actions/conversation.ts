@@ -7,6 +7,7 @@ import {
   ConverationWebsocketMessage,
   Conversation,
   ConversationActions,
+  ConversationInput,
   Message,
 } from '../types/conversation';
 import { APIError } from '../types/generic';
@@ -41,6 +42,55 @@ export const GetPublicConversations =
 
         // Call the onSuccess Method
         onSuccess(conversations);
+      })
+      .catch((err) => {
+        // Get the Error Object
+        let error: APIError = err.response.data;
+
+        // Handle Error
+        onError(error);
+      })
+      .finally(() => {
+        // Create an Error Object
+        let error: APIError = {
+          code: 500,
+          message: 'Severe API Error.',
+        };
+
+        // Handle Error
+        onError(error);
+      });
+  };
+
+/**
+ * Creates a new conversation channel.
+ * @param conversation 
+ * @param onSuccess 
+ * @param onError 
+ * @returns 
+ */
+export const CreateConversation =
+  (
+    conversation: ConversationInput,
+    onSuccess: (conversation: Conversation) => void,
+    onError: (err: APIError) => void
+  ) =>
+  async (dispatch: Dispatch) => {
+    // Call the API
+    await appAPI
+      .post('/conversation', conversation, headers())
+      .then((res) => {
+        // Get the Conversation from the Response
+        let conversation: Conversation = res.data;
+
+        // Call the Dispatch
+        dispatch({
+          type: ConversationActions.CREATE_CONVERSATION,
+          conversation: conversation,
+        });
+
+        // Call the onSuccess Method
+        onSuccess(conversation);
       })
       .catch((err) => {
         // Get the Error Object
@@ -104,7 +154,7 @@ export const GetConversation =
 
 /**
  * Connects to the Conversation WebSocket endpoint.
- * @returns 
+ * @returns
  */
 export const ConnectConversationWebsocket =
   () => async (dispatch: Dispatch) => {

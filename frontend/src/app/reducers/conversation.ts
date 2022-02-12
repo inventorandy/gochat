@@ -7,12 +7,14 @@ import {
 // ConversationState
 export interface ConversationState {
   publicConversations?: Conversation[];
+  privateConversations?: Conversation[];
   currentConversation?: Conversation;
 }
 
 // Set the initial (empty) state
 const initialState: ConversationState = {
   publicConversations: undefined,
+  privateConversations: undefined,
   currentConversation: undefined,
 };
 
@@ -31,6 +33,22 @@ const conversationReducer = (
       return {
         ...state,
         currentConversation: action.conversation,
+      };
+    case ConversationActions.CREATE_CONVERSATION:
+      if (action.conversation.is_public) {
+        let pubConvs = state.publicConversations || [];
+        pubConvs.push(action.conversation);
+        return {
+          ...state,
+          publicConversations: pubConvs,
+        };
+      } else {
+        let priConvs = state.privateConversations || [];
+        priConvs.push(action.conversation);
+        return {
+          ...state,
+          privateConversations: priConvs,
+        };
       }
     default:
       return state;

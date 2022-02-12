@@ -21,9 +21,9 @@ jobs:
         id: build-images
         env:
           IMAGE_TAG: ${{ github.sha }}
-          REPOSITORY_BASE: us-central1-docker.pkg.dev/gochat-demo/gochat-services
-          REACT_APP_API_URL: http://localhost:8081/api/v1
-          REACT_APP_WS_URL: ws://localhost:8082
+          REPOSITORY_BASE: ${{ secrets.REPOSITORY_BASE }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_WS_URL: ${{ secrets.REACT_APP_WS_URL }}
         run: |
           # Build the Docker Images
           docker build -t $REPOSITORY_BASE/gochat-service-accounts:$IMAGE_TAG -t $REPOSITORY_BASE/gochat-service-accounts:${GITHUB_REF##*/} -f platform/services/account/Dockerfile .

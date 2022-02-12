@@ -15,6 +15,12 @@ export interface Conversation {
   has_new: boolean;
 }
 
+export interface ConversationInput {
+  id?: string;
+  label: string;
+  is_public: boolean;
+}
+
 // Conversation Websocket Message
 export interface ConverationWebsocketMessage {
   type?: string;
@@ -25,6 +31,7 @@ export interface ConverationWebsocketMessage {
 export enum ConversationActions {
   GET_PUBLIC_CONVERSATIONS = 'GET_PUBLIC_CONVERSATIONS',
   SET_CURRENT_CONVERSATION = 'SET_CURRENT_CONVERSATION',
+  CREATE_CONVERSATION = 'CREATE_CONVERSATION',
 }
 
 interface GetPublicConversationsAction {
@@ -37,6 +44,12 @@ interface SetCurrentConversationAction {
   conversation: Conversation;
 }
 
+interface CreateConversationAction {
+  type: typeof ConversationActions.CREATE_CONVERSATION;
+  conversation: Conversation;
+}
+
 export type ConversationActionTypes =
   | GetPublicConversationsAction
-  | SetCurrentConversationAction;
+  | SetCurrentConversationAction
+  | CreateConversationAction;
