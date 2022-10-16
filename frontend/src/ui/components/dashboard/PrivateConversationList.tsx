@@ -1,8 +1,14 @@
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { GetPrivateConversations } from '../../../app/actions/conversation';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { RootState } from '../../../app/store';
+
+// Add the Required Icons to the Library
+library.add(faLock);
 
 const PrivateConversationList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -15,12 +21,7 @@ const PrivateConversationList: React.FC = () => {
   // useEffect Hook
   useEffect(() => {
     if (!conversations) {
-      dispatch(
-        GetPrivateConversations(
-          (conversations) => {},
-          (err) => {}
-        )
-      );
+      dispatch(GetPrivateConversations((err) => {}));
     }
   }, [dispatch, conversations]);
 
@@ -34,7 +35,8 @@ const PrivateConversationList: React.FC = () => {
             return (
               <li key={conversation.id}>
                 <a href={'/channels/' + conversation.id}>
-                  {'#' + conversation.label}
+                  <FontAwesomeIcon icon='lock' />
+                  {conversation.label}
                 </a>
               </li>
             );

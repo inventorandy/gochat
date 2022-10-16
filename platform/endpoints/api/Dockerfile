@@ -1,4 +1,4 @@
-FROM golang:1.16.5 as builder
+FROM golang:1.18 as builder
 WORKDIR /gochat
 
 # Copy the Required Files

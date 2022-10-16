@@ -3,6 +3,7 @@ import RequireAuth from './ui/components/auth/RequireAuth';
 import Dashboard from './ui/components/dashboard/Dashboard';
 import ConversationPage from './ui/pages/Conversation';
 import LoginPage from './ui/pages/LoginPage';
+import WelcomePage from './ui/pages/Welcome';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           index
           element={
             <RequireAuth>
-              <h1>Hello, World!</h1>
+              <WelcomePage />
             </RequireAuth>
           }
         />

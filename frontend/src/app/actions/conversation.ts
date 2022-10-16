@@ -37,11 +37,7 @@ export const SetCurrentConversation =
   };
 
 export const GetPublicConversations =
-  (
-    onSuccess: (conversations: Conversation[]) => void,
-    onError: (err: APIError) => void
-  ) =>
-  async (dispatch: Dispatch) => {
+  (onError: (err: APIError) => void) => async (dispatch: Dispatch) => {
     appAPI
       .get('/conversation?public=true', getHeaderConfig())
       .then((res) => {
@@ -50,9 +46,6 @@ export const GetPublicConversations =
 
         // Set the Public Conversations
         dispatch(setPublicConversations(convos));
-
-        // Call the Success Method
-        onSuccess(convos);
       })
       .catch((err) => {
         // Get the Error Message
@@ -64,11 +57,7 @@ export const GetPublicConversations =
   };
 
 export const GetPrivateConversations =
-  (
-    onSuccess: (conversations: Conversation[]) => void,
-    onError: (err: APIError) => void
-  ) =>
-  async (dispatch: Dispatch) => {
+  (onError: (err: APIError) => void) => async (dispatch: Dispatch) => {
     appAPI
       .get('/conversation', getHeaderConfig())
       .then((res) => {
@@ -77,9 +66,6 @@ export const GetPrivateConversations =
 
         // Set the Private Conversations
         dispatch(setPrivateConversations(convos));
-
-        // Call the Success Method
-        onSuccess(convos);
       })
       .catch((err) => {
         // Get the Error Message

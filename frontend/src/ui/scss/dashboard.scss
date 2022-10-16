@@ -29,6 +29,7 @@
 
     > img {
       width: 120px;
+      border-bottom: 1px solid black;
     }
 
     > div.channel-list {
@@ -56,6 +57,11 @@
           &:hover {
             background-color: lighten($primary-color, 5%);
           }
+
+          > svg {
+            margin-right: 0.4rem;
+            filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.5));
+          }
         }
       }
     }
@@ -78,5 +84,18 @@
         background-color: lighten($primary-color, 5%);
       }
     }
+  }
+}
+
+.welcome {
+  padding: 0.4rem;
+
+  > h1 {
+    text-align: center;
+  }
+
+  > p {
+    width: 320px;
+    margin: 0px auto;
   }
 }

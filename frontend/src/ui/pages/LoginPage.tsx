@@ -62,6 +62,7 @@ const LoginPage: React.FC = () => {
           placeholder='Email Address'
           value={email}
           onChange={handleEmail}
+          autoComplete='Off'
         />
       </div>
       <div>
@@ -71,6 +72,7 @@ const LoginPage: React.FC = () => {
           placeholder='Password'
           value={password}
           onChange={handlePassword}
+          autoComplete='Off'
         />
       </div>
       <div>

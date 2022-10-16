@@ -1,20 +1,19 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { SendMessage } from '../../../app/actions/conversation';
 import { currentConversation } from '../../../app/features/conversation';
 import { currentUser } from '../../../app/features/user';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { Message } from '../../../app/types/conversation';
 
 const ChatBox: React.FC = () => {
   const dispatch = useAppDispatch();
 
   // Get the User
-  const user = useSelector(currentUser);
+  const user = useAppSelector(currentUser);
 
   // Get the Conversation
-  const conversation = useSelector(currentConversation);
+  const conversation = useAppSelector(currentConversation);
 
   // Set the Form States
   const [message, setMessage] = useState<string>('');
