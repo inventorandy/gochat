@@ -1,12 +1,13 @@
 package controller
 
 import (
+	"gochat/platform/services/conversation/interfaces"
 	"gochat/platform/services/conversation/repository"
 )
 
 // ConversationController struct
 type ConversationController struct {
-	r repository.Repository
+	r interfaces.Repository
 }
 
 // NewConversationController creates a new instance of the conversation controller

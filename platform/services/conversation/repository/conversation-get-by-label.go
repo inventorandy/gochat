@@ -2,7 +2,7 @@ package repository
 
 import (
 	"fmt"
-	"gochat/platform/services/conversation/repository/types"
+	"gochat/platform/services/conversation/types"
 
 	"gorm.io/gorm/clause"
 )

@@ -2,9 +2,9 @@ package repository
 
 import (
 	"fmt"
-	"gochat/platform/services/account/repository/types"
+	"gochat/platform/services/account/types"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 // GetUserByID fetches a user by their UUID

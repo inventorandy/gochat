@@ -1,19 +1,10 @@
 import axios from 'axios';
-import { deleteCookie, getCookie } from './helpers/cookie';
+import { deleteCookie, getCookie } from './cookie';
 
 export const appAPI = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
 });
 
-//export const headers = { headers: { Authorization: getCookie('token') || '' } }
-export const headers = () => {
-  return { headers: { Authorization: getCookie('token') || '' } };
-}
-
-/**
- * Checks if a user is logged in.
- * @returns boolean
- */
 export const isLoggedIn = (): boolean => {
   let jwt = getCookie('token');
   if (jwt === '' || jwt === null || jwt === undefined) {
@@ -23,10 +14,16 @@ export const isLoggedIn = (): boolean => {
   }
 };
 
-/**
- * Clears the Session and any Storage
- */
 export const clearSession = () => {
   deleteCookie('token');
   localStorage.clear();
+};
+
+export const getHeaderConfig = () => {
+  return {
+    headers: {
+      // TODO: Include Bearer when we move to OAPI3
+      Authorization: '' + getCookie('token'),
+    },
+  };
 };

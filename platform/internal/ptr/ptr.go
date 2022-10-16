@@ -6,3 +6,10 @@ func Bool(value bool) *bool {
 	*rtn = value
 	return rtn
 }
+
+// String creates a string pointer
+func String(value string) *string {
+	rtn := new(string)
+	*rtn = value
+	return rtn
+}

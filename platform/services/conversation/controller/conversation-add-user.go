@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"gochat/platform/internal/pbjson"
 	"gochat/platform/internal/proto/pb"
-	"gochat/platform/services/conversation/repository/types"
+	"gochat/platform/services/conversation/types"
 )
 
 // AddUserToConversation method adds a participant to a conversation

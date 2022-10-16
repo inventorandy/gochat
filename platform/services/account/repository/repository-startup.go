@@ -2,7 +2,8 @@ package repository
 
 import (
 	"fmt"
-	"gochat/platform/services/account/repository/types"
+	"gochat/platform/services/account/interfaces"
+	"gochat/platform/services/account/types"
 	"os"
 
 	"gorm.io/driver/postgres"
@@ -11,6 +12,7 @@ import (
 
 // AccountRepository struct
 type AccountRepository struct {
+	interfaces.Repository
 	db *gorm.DB
 }
 

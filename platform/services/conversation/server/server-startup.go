@@ -3,6 +3,7 @@ package server
 import (
 	"gochat/platform/internal/proto/pb"
 	"gochat/platform/services/conversation/controller"
+	"gochat/platform/services/conversation/interfaces"
 	"sync"
 )
 
@@ -15,7 +16,7 @@ type ChatEventConnection struct {
 
 // ConversationService struct
 type ConversationService struct {
-	c                    *controller.ConversationController
+	c                    interfaces.Controller
 	ChatEventConnections []*ChatEventConnection
 	chatMtx              sync.Mutex
 	pb.ConversationServiceServer

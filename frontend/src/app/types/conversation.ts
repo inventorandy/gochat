@@ -1,24 +1,23 @@
+import { User } from './user';
+
+// Messages API Object
 export interface Message {
-  id: string;
-  author_id: string;
-  author_name: string;
-  conversation_id: string;
-  created_at: string;
-  message: string;
-}
-export interface Conversation {
-  id: string;
-  last_message_on: string;
-  label: string;
-  is_public: boolean;
-  messages: Message[];
-  has_new: boolean;
+  id?: string;
+  conversation_id?: string;
+  author_id?: string;
+  author_name?: string;
+  message?: string;
+  created_at?: string;
 }
 
-export interface ConversationInput {
+// Conversation API Object
+export interface Conversation {
   id?: string;
-  label: string;
-  is_public: boolean;
+  last_message_on?: string;
+  label?: string;
+  is_public?: boolean;
+  participants?: User[];
+  messages: Message[];
 }
 
 // Conversation Websocket Message
@@ -29,27 +28,39 @@ export interface ConverationWebsocketMessage {
 }
 
 export enum ConversationActions {
-  GET_PUBLIC_CONVERSATIONS = 'GET_PUBLIC_CONVERSATIONS',
-  SET_CURRENT_CONVERSATION = 'SET_CURRENT_CONVERSATION',
-  CREATE_CONVERSATION = 'CREATE_CONVERSATION',
+  GET_PUBLIC_CONVERSATIONS = 1,
+  GET_PRIVATE_CONVERSATIONS = 2,
+  SET_CURRENT_CONVERSATION = 3,
+  CREATE_CONVERSATION = 4,
 }
 
-interface GetPublicConversationsAction {
+// Get Public Conversations Action Type
+interface GetPublicConversations {
   type: typeof ConversationActions.GET_PUBLIC_CONVERSATIONS;
   conversations: Conversation[];
 }
 
-interface SetCurrentConversationAction {
+// Get Private Conversations Action Type
+interface GetPrivateConversations {
+  type: typeof ConversationActions.GET_PRIVATE_CONVERSATIONS;
+  conversations: Conversation[];
+}
+
+// Set Current Conversation Action Type
+interface SetCurrentConversation {
   type: typeof ConversationActions.SET_CURRENT_CONVERSATION;
   conversation: Conversation;
 }
 
-interface CreateConversationAction {
+// Create Conversation Action Type
+interface CreateConversation {
   type: typeof ConversationActions.CREATE_CONVERSATION;
   conversation: Conversation;
 }
 
+// Export the Action Types
 export type ConversationActionTypes =
-  | GetPublicConversationsAction
-  | SetCurrentConversationAction
-  | CreateConversationAction;
+  | GetPublicConversations
+  | GetPrivateConversations
+  | SetCurrentConversation
+  | CreateConversation;

@@ -5,8 +5,8 @@ import (
 	"gochat/platform/internal/pbjson"
 	"gochat/platform/internal/proto/pb"
 
-	"github.com/gofrs/uuid"
 	"github.com/golang/protobuf/ptypes/wrappers"
+	"github.com/google/uuid"
 )
 
 // GetConversationByID fetches a conversation by its ID
@@ -17,7 +17,7 @@ func (c *ConversationController) GetConversationByID(in *wrappers.StringValue) (
 	}
 
 	// Convert to a UUID
-	conversationID, err := uuid.FromString(in.Value)
+	conversationID, err := uuid.Parse(in.Value)
 	if err != nil {
 		return nil, fmt.Errorf("controller error: %s", err.Error())
 	}

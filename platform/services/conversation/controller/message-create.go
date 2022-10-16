@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"gochat/platform/internal/pbjson"
 	"gochat/platform/internal/proto/pb"
-	"gochat/platform/services/conversation/repository/types"
+	"gochat/platform/services/conversation/types"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 // CreateMessage creates a new message
@@ -39,10 +39,7 @@ func (c *ConversationController) CreateMessage(in *pb.Message) (*pb.Message, err
 	}
 
 	// Create a new ID
-	messageID, err := uuid.NewV4()
-	if err != nil {
-		return nil, fmt.Errorf("controller error: unable to generate new UUID for message: %s", err.Error())
-	}
+	messageID := uuid.New()
 
 	// Set the ID
 	message.ID = messageID

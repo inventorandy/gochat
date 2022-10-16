@@ -1,35 +1,32 @@
-import React from 'react';
-import { Suspense } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from 'react-router-dom';
-import { PersistGate } from 'redux-persist/integration/react';
-import { Provider } from 'react-redux';
-import { store, persistor } from './app/store';
-import './scss/gochat.scss';
-import LoginPage from './ui/pages/Login/LoginPage';
-import MainPage from './ui/pages/Main/MainPage';
-import RequireAuth from './ui/components/Routing/RequireAuth';
+import { Route, Routes } from 'react-router-dom';
+import RequireAuth from './ui/components/auth/RequireAuth';
+import Dashboard from './ui/components/dashboard/Dashboard';
+import ConversationPage from './ui/pages/Conversation';
+import LoginPage from './ui/pages/LoginPage';
 
 function App() {
-  // Render
-  return(
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Router>
-          <Routes>
-            <Route path="/welcome" element={<LoginPage />} />
-            <Route path="/" element={
-              <RequireAuth>
-                <MainPage />
-              </RequireAuth>
-            } />
-          </Routes>
-        </Router>
-      </PersistGate>
-    </Provider>
+  return (
+    <Routes>
+      <Route path='/auth/login' element={<LoginPage />} />
+      <Route path='/' element={<Dashboard />}>
+        <Route
+          index
+          element={
+            <RequireAuth>
+              <h1>Hello, World!</h1>
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/channels/:id'
+          element={
+            <RequireAuth>
+              <ConversationPage />
+            </RequireAuth>
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 

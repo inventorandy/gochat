@@ -2,7 +2,7 @@ package repository
 
 import (
 	"fmt"
-	"gochat/platform/services/account/repository/types"
+	"gochat/platform/services/account/types"
 )
 
 // GetAllUsers fetches a list of all users

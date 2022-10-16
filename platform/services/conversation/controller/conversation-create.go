@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"gochat/platform/internal/pbjson"
 	"gochat/platform/internal/proto/pb"
-	"gochat/platform/services/conversation/repository/types"
+	"gochat/platform/services/conversation/types"
 	"regexp"
 	"strings"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 // CreateConversation creates a new conversation object
@@ -27,10 +27,7 @@ func (c *ConversationController) CreateConversation(in *pb.Conversation) (*pb.Co
 	}
 
 	// Create a new ID
-	conversationID, err := uuid.NewV4()
-	if err != nil {
-		return nil, fmt.Errorf("controller error: unable to create new UUID in CreateConversation")
-	}
+	conversationID := uuid.New()
 
 	// Convert the Conversation Proto to Gorm Type
 	conversation := &types.Conversation{}

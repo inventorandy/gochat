@@ -5,10 +5,10 @@ import (
 	"gochat/platform/internal/enc"
 	"gochat/platform/internal/pbjson"
 	"gochat/platform/internal/proto/pb"
-	"gochat/platform/services/account/repository/types"
+	"gochat/platform/services/account/types"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 // CreateUser validates a user proto and creates a user in the database via the repository
@@ -40,10 +40,7 @@ func (c *AccountController) CreateUser(in *pb.User) (*pb.User, error) {
 	}
 
 	// Generate a new ID
-	userID, err := uuid.NewV4()
-	if err != nil {
-		return nil, fmt.Errorf("controller error: unable to generate new UUID in CreateUser")
-	}
+	userID := uuid.New()
 
 	// Convert the User to a Type
 	userIn := &types.User{}

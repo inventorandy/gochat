@@ -3,11 +3,12 @@ package server
 import (
 	"gochat/platform/internal/proto/pb"
 	"gochat/platform/services/account/controller"
+	"gochat/platform/services/account/interfaces"
 )
 
 // AccountService struct
 type AccountService struct {
-	c *controller.AccountController
+	c interfaces.Controller
 	pb.AccountServiceServer
 }
 

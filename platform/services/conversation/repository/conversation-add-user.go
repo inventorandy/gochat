@@ -2,9 +2,9 @@ package repository
 
 import (
 	"fmt"
-	"gochat/platform/services/conversation/repository/types"
+	"gochat/platform/services/conversation/types"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 // AddUserToConversation adds a user to a conversation

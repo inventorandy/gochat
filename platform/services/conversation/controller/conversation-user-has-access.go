@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"gochat/platform/internal/proto/pb"
 
-	"github.com/gofrs/uuid"
 	"github.com/golang/protobuf/ptypes/wrappers"
+	"github.com/google/uuid"
 )
 
 // UserHasAccessToConversation checks whether a user can read or write messages in a conversation
@@ -16,7 +16,7 @@ func (c *ConversationController) UserHasAccessToConversation(in *pb.UserAccessQu
 	}
 
 	// Convert to a UUID
-	userID, err := uuid.FromString(in.UserId)
+	userID, err := uuid.Parse(in.UserId)
 	if err != nil {
 		return nil, fmt.Errorf("controller error: %s", err.Error())
 	}
@@ -27,7 +27,7 @@ func (c *ConversationController) UserHasAccessToConversation(in *pb.UserAccessQu
 	}
 
 	// Convert to a UUID
-	conversationID, err := uuid.FromString(in.ConversationId)
+	conversationID, err := uuid.Parse(in.ConversationId)
 	if err != nil {
 		return nil, fmt.Errorf("controller error: %s", err.Error())
 	}

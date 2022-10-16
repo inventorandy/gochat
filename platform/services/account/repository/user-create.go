@@ -2,7 +2,7 @@ package repository
 
 import (
 	"fmt"
-	"gochat/platform/services/account/repository/types"
+	"gochat/platform/services/account/types"
 )
 
 // CreateUser creates a new user in the database

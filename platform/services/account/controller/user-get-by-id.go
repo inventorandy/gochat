@@ -5,8 +5,8 @@ import (
 	"gochat/platform/internal/pbjson"
 	"gochat/platform/internal/proto/pb"
 
-	"github.com/gofrs/uuid"
 	"github.com/golang/protobuf/ptypes/wrappers"
+	"github.com/google/uuid"
 )
 
 // GetUserByID fetches a user by their ID
@@ -17,7 +17,7 @@ func (c *AccountController) GetUserByID(in *wrappers.StringValue) (*pb.User, err
 	}
 
 	// Attempt to convert to a UUID
-	userID, err := uuid.FromString(in.Value)
+	userID, err := uuid.Parse(in.Value)
 	if err != nil {
 		return nil, fmt.Errorf("controller error: unable to convert UUID from string: %s", err.Error())
 	}

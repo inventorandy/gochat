@@ -5,8 +5,8 @@ import (
 	"gochat/platform/internal/pbjson"
 	"gochat/platform/internal/proto/pb"
 
-	"github.com/gofrs/uuid"
 	"github.com/golang/protobuf/ptypes/wrappers"
+	"github.com/google/uuid"
 )
 
 // GetPrivateConversationsForUser method fetches a list of private conversations for a user
@@ -17,7 +17,7 @@ func (c *ConversationController) GetPrivateConversationsForUser(in *wrappers.Str
 	}
 
 	// Convert to a UUID
-	userID, err := uuid.FromString(in.Value)
+	userID, err := uuid.Parse(in.Value)
 	if err != nil {
 		return nil, fmt.Errorf("controller error: invalid user Id specified in GetPrivateConversationsForUser")
 	}

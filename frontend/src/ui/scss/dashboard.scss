@@ -1,0 +1,82 @@
+@import 'variables';
+
+.dashboard {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 280px auto;
+  overflow: auto;
+  padding: 0;
+
+  .sidebar {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-right: 1px solid darken($primary-color, 5%);
+    height: 100%;
+    padding: 0.4rem;
+    background: $primary-color;
+    background: linear-gradient(
+      45deg,
+      $primary-color 0%,
+      lighten($primary-color, 25%) 100%
+    );
+    color: $primary-color-overlay;
+    text-align: center;
+
+    > img {
+      width: 120px;
+    }
+
+    > div.channel-list {
+      padding: 0.4rem 0;
+      h4 {
+        margin: 0 0 0.4rem 0;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+      }
+
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        a {
+          display: block;
+          border-radius: 0.4rem;
+          border: none;
+          padding: 0.4rem;
+          color: $primary-color-overlay;
+          text-decoration: none;
+          text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+          text-align: left;
+
+          &:hover {
+            background-color: lighten($primary-color, 5%);
+          }
+        }
+      }
+    }
+
+    > .logout-button {
+      font-family: $body-font-family;
+      display: block;
+      border-radius: 0.4rem;
+      border: none;
+      padding: 0.4rem;
+      background: $primary-color;
+      color: $primary-color-overlay;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 1rem 0;
+      //text-align: left;
+      width: 100%;
+
+      &:hover {
+        background-color: lighten($primary-color, 5%);
+      }
+    }
+  }
+}

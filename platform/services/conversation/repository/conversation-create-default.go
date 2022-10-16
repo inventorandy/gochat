@@ -3,19 +3,16 @@ package repository
 import (
 	"fmt"
 	"gochat/platform/internal/ptr"
-	"gochat/platform/services/conversation/repository/types"
+	"gochat/platform/services/conversation/types"
 	"log"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 // CreateDefaultConversations creates the default channels for the chat application
 func (r *ConversationRepository) CreateDefaultConversations() error {
 	// Create a new UUID for `#general` channel
-	generalID, err := uuid.NewV4()
-	if err != nil {
-		return fmt.Errorf("startup error: %s", err.Error())
-	}
+	generalID := uuid.New()
 	log.Println("general ID: ", generalID.String())
 
 	// Check if we have a `#general` channel

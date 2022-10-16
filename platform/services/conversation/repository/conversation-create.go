@@ -2,7 +2,7 @@ package repository
 
 import (
 	"fmt"
-	"gochat/platform/services/conversation/repository/types"
+	"gochat/platform/services/conversation/types"
 )
 
 // CreateConversation creates a new conversation in the database

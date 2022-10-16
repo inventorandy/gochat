@@ -1,27 +1,45 @@
-import { Action, ThunkAction } from '@reduxjs/toolkit';
-import { applyMiddleware, createStore } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import thunk from 'redux-thunk';
-import { rootReducer } from './rootReducer';
+import conversationReducer from './features/conversation';
+import userReducer from './features/user';
 
-// Persistent Store Configuration
-export const persistConfig = {
+const persistConfig = {
   key: 'root',
   storage,
 };
 
-// Create the Persisted Reducer
-const persistedReducer = persistReducer<any, any>(persistConfig, rootReducer);
+const rootReducer = combineReducers({
+  user: userReducer,
+  conversation: conversationReducer,
+});
 
-// Export the Store
-export const store = createStore(persistedReducer, applyMiddleware(thunk));
-export const persistor = persistStore(store);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch;
+// Export the Store
+export default store;
+// Export the Persistor
+export const persistor = persistStore(store);

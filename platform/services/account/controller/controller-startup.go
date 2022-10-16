@@ -1,10 +1,11 @@
 package controller
 
 import (
+	"gochat/platform/services/account/interfaces"
 	"gochat/platform/services/account/repository"
 
-	"github.com/gofrs/uuid"
 	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
 )
 
 // Claims struct for JWT Claims
@@ -15,7 +16,7 @@ type Claims struct {
 
 // AccountController struct
 type AccountController struct {
-	r repository.Repository
+	r interfaces.Repository
 }
 
 // NewAccountController creates a new instance of the account controller

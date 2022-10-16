@@ -1,0 +1,65 @@
+@import 'variables';
+
+.login-form {
+  width: 340px;
+  margin: 2rem auto 0 auto;
+  text-align: center;
+
+  > h1 {
+    text-align: center;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  > div {
+    > input {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 0.8rem 0.4rem;
+      font-family: $body-font-family;
+      font-size: 1rem;
+      border-radius: 0.4rem;
+      border: 1px solid #eee;
+      outline: none;
+    }
+
+    input[type='email'] {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    input[type='password'] {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-top: none;
+    }
+
+    button {
+      margin: 1rem 0;
+      display: block;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 0.8rem 0.4rem;
+      font-family: $body-font-family;
+      font-size: 1rem;
+      background: $primary-color;
+      color: $primary-color-overlay;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+      border-radius: 0.4rem;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+
+      &:hover {
+        background: lighten($primary-color, 5%);
+      }
+    }
+  }
+
+  img {
+    width: 120px;
+    margin-bottom: -10px;
+  }
+}
