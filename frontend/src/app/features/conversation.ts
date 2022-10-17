@@ -30,6 +30,13 @@ export const ConversationSlice = createSlice({
     setPrivateConversations: (state, action: PayloadAction<Conversation[]>) => {
       state.privateConversations = action.payload;
     },
+    addConversation: (state, action: PayloadAction<Conversation>) => {
+      if (action.payload.is_public) {
+        state.publicConversations?.push(action.payload);
+      } else {
+        state.privateConversations?.push(action.payload);
+      }
+    },
     addMessageToConversation: (state, action: PayloadAction<Message>) => {
       console.log(action.payload);
       let msg = action.payload;
@@ -37,7 +44,7 @@ export const ConversationSlice = createSlice({
       if (msg.conversation_id === state.currentConversation?.id) {
         let conv = state.currentConversation;
         if (conv) {
-          if (conv.messages === undefined) {
+          if (conv.messages === undefined || conv.messages === null) {
             conv.messages = [];
           }
           conv.messages.push(msg);
@@ -53,6 +60,7 @@ export const {
   setCurrentConversation,
   setPublicConversations,
   setPrivateConversations,
+  addConversation,
   addMessageToConversation,
 } = ConversationSlice.actions;
 

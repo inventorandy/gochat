@@ -6,3 +6,9 @@ pgdata/
 
 # Old Frontend
 old-frontend/
+
+# Test Profile
+profile.txt
+
+# Mac Desktop File
+.DS_Store

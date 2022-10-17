@@ -3,8 +3,21 @@ on:
   push:
     branches:
       - 'develop'
+      - 'production'
       - 'master'
 jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+      - name: Run Service Unit Tests
+        run: go test -v ./platform/...
   build:
     name: Build and Deploy
     runs-on: ubuntu-latest

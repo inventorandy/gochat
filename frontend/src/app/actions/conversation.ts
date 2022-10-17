@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import { appAPI, getHeaderConfig } from '../apiConn';
 import {
+  addConversation,
   addMessageToConversation,
   setCurrentConversation,
   setPrivateConversations,
@@ -66,6 +67,27 @@ export const GetPrivateConversations =
 
         // Set the Private Conversations
         dispatch(setPrivateConversations(convos));
+      })
+      .catch((err) => {
+        // Get the Error Message
+        let error: APIError = err.response.data;
+
+        // Call the Error Method
+        onError(error);
+      });
+  };
+
+export const CreateConversation =
+  (conversation: Conversation, onError: (err: APIError) => void) =>
+  async (dispatch: Dispatch) => {
+    appAPI
+      .post('/conversation', conversation, getHeaderConfig())
+      .then((res) => {
+        // Get the Conversation from the Response
+        const convo: Conversation = res.data;
+
+        // Add the Conversation to the List
+        dispatch(addConversation(convo));
       })
       .catch((err) => {
         // Get the Error Message

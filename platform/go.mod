@@ -3,24 +3,26 @@ module gochat/platform
 go 1.16
 
 require (
-	github.com/go-openapi/errors v0.19.9
-	github.com/go-openapi/loads v0.20.2
-	github.com/go-openapi/runtime v0.19.29
-	github.com/go-openapi/spec v0.20.3
-	github.com/go-openapi/strfmt v0.20.1
-	github.com/go-openapi/swag v0.19.15
-	github.com/go-openapi/validate v0.20.2
+	github.com/go-openapi/errors v0.20.3
+	github.com/go-openapi/loads v0.21.2
+	github.com/go-openapi/runtime v0.24.2
+	github.com/go-openapi/spec v0.20.7
+	github.com/go-openapi/strfmt v0.21.3
+	github.com/go-openapi/swag v0.22.3
+	github.com/go-openapi/validate v0.22.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.2
-	github.com/google/uuid v1.1.2
-	github.com/gorilla/websocket v1.4.2
+	github.com/google/uuid v1.3.0
+	github.com/gorilla/websocket v1.5.0
 	github.com/jessevdk/go-flags v1.5.0
-	github.com/rs/cors v1.8.0
-	golang.org/x/net v0.0.0-20210610132358-84b48f89b13b
-	golang.org/x/sys v0.0.0-20210611083646-a4fc73990273 // indirect
-	google.golang.org/genproto v0.0.0-20210611144927-798beca9d670 // indirect
-	google.golang.org/grpc v1.38.0
-	google.golang.org/protobuf v1.26.0
-	gorm.io/driver/postgres v1.1.0
-	gorm.io/gorm v1.21.10
+	github.com/rs/cors v1.8.2
+	github.com/stretchr/testify v1.8.0
+	golang.org/x/net v0.0.0-20221017152216-f25eb7ecb193
+	golang.org/x/sys v0.1.0 // indirect
+	google.golang.org/genproto v0.0.0-20221014213838-99cd37c6964a // indirect
+	google.golang.org/grpc v1.50.1
+	google.golang.org/protobuf v1.28.1
+	gorm.io/driver/postgres v1.4.4
+	gorm.io/gorm v1.24.0
 )

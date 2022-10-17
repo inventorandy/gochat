@@ -19,15 +19,14 @@ const ConversationPage: React.FC = () => {
   const conversation = useAppSelector(currentConversation);
 
   // Error State
-  const [error, setError] = useState<string>('');
+  const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
-    // console.log('rendering');
     if (id) {
-      if (conversation === undefined) {
+      if (conversation === undefined || conversation.id !== id) {
         dispatch(
           SetCurrentConversation(id, (err) => {
-            setError(err.message);
+            setErrorMsg(err.message);
           })
         );
       }
@@ -36,13 +35,23 @@ const ConversationPage: React.FC = () => {
 
   // Render
   return (
-    <div className='conversation'>
-      <div className='header'>
-        <h1>{conversation?.label}</h1>
-      </div>
-      <MessageList />
-      <ChatBox />
-    </div>
+    <>
+      {errorMsg === '' && (
+        <div className='conversation'>
+          <div className='header'>
+            <h1>{conversation?.label}</h1>
+          </div>
+          <MessageList />
+          <ChatBox />
+        </div>
+      )}
+      {errorMsg !== '' && (
+        <div className='welcome'>
+          <h1>Channel Not Found</h1>
+          <p>{errorMsg}</p>
+        </div>
+      )}
+    </>
   );
 };
 

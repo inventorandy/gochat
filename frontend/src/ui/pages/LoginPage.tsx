@@ -16,6 +16,7 @@ const LoginPage: React.FC = () => {
   // Form Element Value States
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [hidden, setHidden] = useState<boolean>(true);
 
   // Input Handlers
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,33 +53,35 @@ const LoginPage: React.FC = () => {
   };
   // Render
   return (
-    <form className='login-form' onSubmit={onLogin}>
-      <h1>Welcome to GoChat</h1>
-      <img src={gopher} alt='GoChat Gopher' />
-      <div>
-        <input
-          type='email'
-          id='email'
-          placeholder='Email Address'
-          value={email}
-          onChange={handleEmail}
-          autoComplete='Off'
-        />
-      </div>
-      <div>
-        <input
-          type='password'
-          id='password'
-          placeholder='Password'
-          value={password}
-          onChange={handlePassword}
-          autoComplete='Off'
-        />
-      </div>
-      <div>
-        <button>Log In</button>
-      </div>
-    </form>
+    <>
+      <form className='login-form' onSubmit={onLogin}>
+        <h1>Welcome to GoChat</h1>
+        <img src={gopher} alt='GoChat Gopher' />
+        <div>
+          <input
+            type='email'
+            id='email'
+            placeholder='Email Address'
+            value={email}
+            onChange={handleEmail}
+            autoComplete='Off'
+          />
+        </div>
+        <div>
+          <input
+            type='password'
+            id='password'
+            placeholder='Password'
+            value={password}
+            onChange={handlePassword}
+            autoComplete='Off'
+          />
+        </div>
+        <div>
+          <button>Log In</button>
+        </div>
+      </form>
+    </>
   );
 };
 
